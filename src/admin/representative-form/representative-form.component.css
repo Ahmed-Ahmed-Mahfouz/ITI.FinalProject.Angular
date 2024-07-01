@@ -1,0 +1,15 @@
+.row{
+  max-width: 100%;
+}
+
+input ,select{
+ background-color: rgb(232,240,254);
+ height: 35px;
+ border: 0;
+ padding: 10px;
+}
+.select{
+  background-color: rgb(232,240,254) !important;
+  padding: 5px;
+
+}
