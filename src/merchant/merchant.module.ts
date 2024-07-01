@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { MerchantRoutingModule } from './merchant-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    MerchantRoutingModule
-  ]
+  imports: [CommonModule, MerchantRoutingModule],
 })
-export class MerchantModule { }
+export class MerchantModule {}
