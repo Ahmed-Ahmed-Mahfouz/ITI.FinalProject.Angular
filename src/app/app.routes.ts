@@ -12,3 +12,4 @@ export const routes: Routes = [
     loadChildren:()=> import("../merchant/merchant.module").then(m=>m.MerchantModule)
    }
 ];
+
