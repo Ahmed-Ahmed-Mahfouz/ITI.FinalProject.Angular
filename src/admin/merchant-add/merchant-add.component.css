@@ -79,31 +79,25 @@ button:hover {
   background-color: #0056b3;
 }
 
-.delete-btn {
-  background-color: #dc3545;
-}
-
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
 .add-new-btn {
   background-color: #00c1cf;
   width: 12%;
+  transition: all 0.3s ease;
 }
 
 .add-new-btn:hover {
-  background-color: #006269;
+  background-color: #004045;
   color: #eee;
 }
 
 .save-btn {
   background-color: #29cc97;
   align-self: flex-end;
+  transition: all 0.3s ease;
 }
 
 .save-btn:hover {
-  background-color: #1a815f;
+  background-color: #11503b;
   color: #eee;
 }
 
