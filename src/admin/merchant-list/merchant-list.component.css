@@ -83,6 +83,18 @@
   font-weight: bold;
 }
 
+.settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pen-settings {
+  background-color: #00c1cf;
+  padding: 2px 7.5px;
+  border-radius: 10px;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
 
@@ -117,13 +129,18 @@
 
   .product-table td:before {
     position: absolute;
-    top: 0;
+    top: 30%;
     left: 0;
     width: 45%;
     padding-left: 15px;
     white-space: nowrap;
     text-align: left;
     font-weight: bold;
+  }
+
+  .pen-settings {
+    width: 30px;
+    margin-left: auto;
   }
 
   .product-table td:nth-of-type(1):before {
@@ -153,16 +170,4 @@
   .product-table td:nth-of-type(7):before {
     content: "Settings";
   }
-}
-
-.settings {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.pen-settings {
-  background-color: #00c1cf;
-  padding: 2px 7.5px;
-  border-radius: 10px;
 }
