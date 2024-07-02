@@ -77,7 +77,9 @@
 }
 
 .bi-pencil {
-  color: #f8b24c;
+  color: #000;
+  font-weight: bold;
+  font-size: 1em;
   font-weight: bold;
 }
 
@@ -151,4 +153,16 @@
   .product-table td:nth-of-type(7):before {
     content: "Settings";
   }
+}
+
+.settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pen-settings {
+  background-color: #00c1cf;
+  padding: 2px 7.5px;
+  border-radius: 10px;
 }
