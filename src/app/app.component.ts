@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { OrderReportComponent } from './shared-module/order-report/order-report.component';
-import { LoginComponent } from './shared-module/login/login.component';
+import { OrderReportComponent } from './shared-module/Components/order-report/order-report.component';
+import { LoginComponent } from './shared-module/Components/login/login.component';
 
 @Component({
   selector: 'app-root',
