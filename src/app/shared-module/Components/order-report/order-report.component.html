@@ -1,0 +1,85 @@
+<div class="form-container">
+  <h2>Order Reports by Status</h2>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="Status">Order Status</label>
+      <select id="Status" name="Status" required>
+        <option value="" disabled selected>Select Order Status</option>
+        <!-- Add your Order Types here -->
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="from-date">From</label>
+      <input type="date" id="from-date">
+    </div>
+    <div class="form-group">
+      <label for="to-date">To</label>
+      <input type="date" id="to-date">
+    </div>
+    <div class="form-group">
+      <button type="button">Search <i class="bi bi-search"></i></button>
+    </div>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Serial Number</th>
+          <th>Status</th>
+          <th>Vendor</th>
+          <th>Client</th>
+          <th>Phone</th>
+          <th>Governorate</th>
+          <th>City</th>
+          <th>Order Cost</th>
+          <th>Amount Received</th>
+          <th>Shipping Cost</th>
+          <th>Paid Shipping Value</th>
+          <th>Company Value</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <!-- <td colspan="14">No data available in table</td> -->
+          <td>1</td>
+          <td>3015</td>
+          <td>Pending</td>
+          <td>Vendor 1</td>
+          <td>Client 1</td>
+          <td>0123456789</td>
+          <td>Governorate 1</td>
+          <td>Menofia</td>
+          <td>$100</td>
+          <td>$100</td>
+          <td>$10</td>
+          <td>$90</td>
+          <td>$90</td>
+          <td>2022-01-01</td>
+        </tr>
+        <tr>
+          <!-- <td colspan="14">No data available in table</td> -->
+          <td>1</td>
+          <td>3015</td>
+          <td>Pending</td>
+          <td>Vendor 1</td>
+          <td>Client 1</td>
+          <td>0123456789</td>
+          <td>Governorate 1</td>
+          <td>Menofia</td>
+          <td>$100</td>
+          <td>$100</td>
+          <td>$10</td>
+          <td>$90</td>
+          <td>$90</td>
+          <td>2022-01-01</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination">
+    <button type="button"><i class="bi bi-arrow-left"></i></button>
+    <button type="button"><i class="bi bi-arrow-right"></i></button>
+  </div>
+</div>
