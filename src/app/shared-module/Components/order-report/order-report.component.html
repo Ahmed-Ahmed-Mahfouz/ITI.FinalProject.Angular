@@ -5,7 +5,7 @@
       <label for="Status">Order Status</label>
       <select id="Status" name="Status" required>
         <option value="" disabled selected>Select Order Status</option>
-
+        <!-- Add your options here -->
       </select>
     </div>
     <div class="form-group">
@@ -20,66 +20,83 @@
       <button type="button">Search <i class="bi bi-search"></i></button>
     </div>
   </div>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Serial Number</th>
-          <th>Status</th>
-          <th>Vendor</th>
-          <th>Client</th>
-          <th>Phone</th>
-          <th>Governorate</th>
-          <th>City</th>
-          <th>Order Cost</th>
-          <th>Amount Received</th>
-          <th>Shipping Cost</th>
-          <th>Paid Shipping Value</th>
-          <th>Company Value</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <!-- <td colspan="14">No data available in table</td> -->
-          <td>1</td>
-          <td>3015</td>
-          <td>Pending</td>
-          <td>Vendor 1</td>
-          <td>Client 1</td>
-          <td>0123456789</td>
-          <td>Governorate 1</td>
-          <td>Menofia</td>
-          <td>$100</td>
-          <td>$100</td>
-          <td>$10</td>
-          <td>$90</td>
-          <td>$90</td>
-          <td>2022-01-01</td>
-        </tr>
-        <tr>
-          <!-- <td colspan="14">No data available in table</td> -->
-          <td>1</td>
-          <td>3015</td>
-          <td>Pending</td>
-          <td>Vendor 1</td>
-          <td>Client 1</td>
-          <td>0123456789</td>
-          <td>Governorate 1</td>
-          <td>Menofia</td>
-          <td>$100</td>
-          <td>$100</td>
-          <td>$10</td>
-          <td>$90</td>
-          <td>$90</td>
-          <td>2022-01-01</td>
-        </tr>
-      </tbody>
-    </table>
+
+  <div class="table-controls">
+    <div class="entries-select">
+      <label for="entries">Show</label>
+      <select id="entries" [(ngModel)]="selectedEntries" (change)="onEntriesChange()">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+      <label for="entries" class="ms-2">entries</label>
+    </div>
+    <div class="search-bar">
+      <label for="search">Search:</label>
+      <input type="text" id="search" [(ngModel)]="searchTerm" (input)="onSearchChange()"
+        placeholder="🔍 Search records">
+    </div>
   </div>
+
+  <div class="table-wrapper">
+    <div class="table-container">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Serial Number</th>
+            <th>Status</th>
+            <th>Vendor</th>
+            <th>Client</th>
+            <th>Phone</th>
+            <th>Governorate</th>
+            <th>City</th>
+            <th>Order Cost</th>
+            <th>Amount Received</th>
+            <th>Shipping Cost</th>
+            <th>Paid Shipping Value</th>
+            <th>Company Value</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of pagedData">
+            <td>{{ row.id }}</td>
+            <td>{{ row.serialNumber }}</td>
+            <td>{{ row.status }}</td>
+            <td>{{ row.vendor }}</td>
+            <td>{{ row.client }}</td>
+            <td>{{ row.phone }}</td>
+            <td>{{ row.governorate }}</td>
+            <td>{{ row.city }}</td>
+            <td>{{ row.orderCost }}</td>
+            <td>{{ row.amountReceived }}</td>
+            <td>{{ row.shippingCost }}</td>
+            <td>{{ row.paidShippingValue }}</td>
+            <td>{{ row.companyValue }}</td>
+            <td>{{ row.date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <div class="pagination">
-    <button type="button"><i class="bi bi-arrow-left"></i></button>
-    <button type="button"><i class="bi bi-arrow-right"></i></button>
+    <button type="button" (click)="previousPage()" [disabled]="currentPage === 1">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <div class="page-numbers">
+      <button *ngFor="let page of [].constructor(totalPages); let pageIndex = index"
+        [ngClass]="{'active-page': pageIndex + 1 === currentPage}" (click)="goToPage(pageIndex + 1)">
+        {{ pageIndex + 1 }}
+      </button>
+    </div>
+    <button type="button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+      <i class="bi bi-arrow-right"></i>
+    </button>
+  </div>
+  <div class="pagination-info">
+    Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ filteredData.length }} entries
   </div>
 </div>
