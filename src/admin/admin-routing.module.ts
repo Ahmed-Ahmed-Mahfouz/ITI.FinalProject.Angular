@@ -1,4 +1,4 @@
-import { RepresentativeFormComponent } from './representative-form/representative-form.component';
+import { RepresentativeFormComponent } from './Components/representative-form/representative-form.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MerchantListComponent } from './merchant-list/merchant-list.component';

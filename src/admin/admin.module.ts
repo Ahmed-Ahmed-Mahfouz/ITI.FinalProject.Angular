@@ -1,4 +1,4 @@
-import { RepresentativeFormComponent } from './representative-form/representative-form.component';
+import { RepresentativeFormComponent } from './Components/representative-form/representative-form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
