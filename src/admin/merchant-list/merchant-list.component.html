@@ -1,3 +1,20 @@
+<div class="table-controls">
+  <div class="entries-select">
+    <label for="entries">Show</label>
+    <select id="entries" [(ngModel)]="selectedEntries" (change)="onEntriesChange()">
+      <option value="8">8</option>
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+    </select>
+    <label for="entries" class="ms-2">entries</label>
+  </div>
+  <div class="search-bar">
+    <label for="search">Search:</label>
+    <input type="text" id="search" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="🔍 Search records">
+  </div>
+</div>
+
 <div class="table-container">
   <table class="product-table">
     <thead>
@@ -12,74 +29,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
+      <tr *ngFor="let row of pagedData">
+        <td>{{ row.id }}</td>
         <td>
           <div class="name-role">
-            <span class="name">Eslam Abuelyazeed</span>
+            <span class="name">{{ row.name }}</span>
           </div>
         </td>
-        <td>Eslam&#64;gmail.com</td>
-        <td><span>01022756323</span></td>
-        <td>Cairo</td>
-        <td><span class="badge active">Active</span></td>
-        <td class="settings">
-          <div class="pen-settings">
-            <a href="#" class="setting">
-              <i class="bi bi-pencil"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>2</td>
+        <td>{{ row.email }}</td>
+        <td><span>{{ row.phone }}</span></td>
+        <td>{{ row.branch }}</td>
         <td>
-          <div class="name-role">
-            <span class="name">Ahmed Mahfouz</span>
-          </div>
+          <span class="badge" [ngClass]="{'active': row.status === 'Active', 'inactive': row.status === 'Inactive'}">{{
+            row.status }}</span>
         </td>
-        <td>Ahmed&#64;gmail.com</td>
-        <td><span>01022756323</span></td>
-        <td>Cairo</td>
-        <td><span class="badge inactive">InActive</span></td>
-        <td class="settings">
-          <div class="pen-settings">
-            <a href="#" class="setting">
-              <i class="bi bi-pencil"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>
-          <div class="name-role">
-            <span class="name">Deep Javiya</span>
-          </div>
-        </td>
-        <td>abeer6530&#64;gmail.com</td>
-        <td><span>01022756323</span></td>
-        <td>Cairo</td>
-        <td><span class="badge active">Active</span></td>
-        <td class="settings">
-          <div class="pen-settings">
-            <a href="#" class="setting">
-              <i class="bi bi-pencil"></i>
-            </a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>
-          <div class="name-role">
-            <span class="name">Deep Javiya</span>
-          </div>
-        </td>
-        <td>mahmoud55&#64;gmail.com</td>
-        <td><span>01022756323</span></td>
-        <td>Cairo</td>
-        <td><span class="badge active">Active</span></td>
         <td class="settings">
           <div class="pen-settings">
             <a href="#" class="setting">
@@ -90,4 +53,22 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<div class="pagination">
+  <button type="button" (click)="previousPage()" [disabled]="currentPage === 1">
+    <i class="bi bi-arrow-left"></i>
+  </button>
+  <div class="page-numbers">
+    <button *ngFor="let page of [].constructor(totalPages); let pageIndex = index"
+      [ngClass]="{'active-page': pageIndex + 1 === currentPage}" (click)="goToPage(pageIndex + 1)">
+      {{ pageIndex + 1 }}
+    </button>
+  </div>
+  <button type="button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+    <i class="bi bi-arrow-right"></i>
+  </button>
+</div>
+<div class="pagination-info">
+  Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ filteredData.length }} entries
 </div>
