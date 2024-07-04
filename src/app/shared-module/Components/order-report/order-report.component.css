@@ -57,9 +57,9 @@ h2 {
 
 button[type="button"] {
   width: auto;
-  padding: 10px 15px;
-  background-color: #00c1cf;
-  color: #1a1a1a;
+  padding: 10px 13px;
+  background-color: #222831;
+  color: #eee;
   font-weight: bold;
   border: none;
   border-radius: 8px;
