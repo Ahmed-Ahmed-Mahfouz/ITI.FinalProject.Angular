@@ -16,6 +16,7 @@ h2 {
 .form-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
   gap: 10px;
   flex-wrap: wrap;
@@ -64,7 +65,7 @@ button[type="button"] {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: .8rem;
   margin-top: 25px;
   transition: all 0.3s ease-in-out;
 }
