@@ -16,4 +16,9 @@ export const routes: Routes = [
     loadChildren: () =>
       import('../merchant/merchant.module').then((m) => m.MerchantModule),
   },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('../app/shared-module/shared-module.module').then((l)=>l.SharedModuleModule),
+  }
 ];
