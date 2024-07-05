@@ -33,14 +33,15 @@
         <td>{{ row.id }}</td>
         <td>
           <div class="name-role">
-            <span class="name">{{ row.name }}</span>
+            <span class="name">{{ row.userName }}</span>
           </div>
         </td>
         <td>{{ row.email }}</td>
-        <td><span>{{ row.phone }}</span></td>
-        <td>{{ row.branch }}</td>
+        <td><span>{{ row.phoneNumber }}</span></td>
+        <td>{{ row.branchName }}</td>
         <td>
-          <span class="badge" [ngClass]="{'active': row.status === 'Active', 'inactive': row.status === 'Inactive'}">{{
+          <span class="badge"
+            [ngClass]="{'active': row.status.toString() === 'Active', 'inActive': row.status.toString() === 'InActive'}">{{
             row.status }}</span>
         </td>
         <td class="settings">

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IMerchant } from '../../DTOs/DisplayDTOs/IMerchant';
+import { MerchantService } from '../../Services/merchant.service';
 
 @Component({
   selector: 'app-merchant-list',
@@ -10,195 +12,32 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./merchant-list.component.css'],
 })
 export class MerchantListComponent implements OnInit {
-  data = [
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    // Add more rows as needed
-  ];
-
+  data: IMerchant[] = [];
   selectedEntries = 8;
   searchTerm = '';
   currentPage = 1;
   totalPages = 0;
   startIndex = 0;
   endIndex = 0;
-  filteredData: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    branch: string;
-    status: string;
-  }[] = [];
-  pagedData: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    branch: string;
-    status: string;
-  }[] = [];
+  filteredData: IMerchant[] = [];
+  pagedData: IMerchant[] = [];
+
+  constructor(private merchantService: MerchantService) {}
 
   ngOnInit(): void {
-    this.updateTable();
+    this.loadMerchants();
+  }
+
+  loadMerchants(): void {
+    this.merchantService.GetAll().subscribe(
+      (merchants) => {
+        this.data = merchants;
+        this.updateTable();
+      },
+      (error) => {
+        console.error('Error fetching merchants:', error);
+      }
+    );
   }
 
   onEntriesChange(): void {
@@ -237,11 +76,15 @@ export class MerchantListComponent implements OnInit {
     if (this.searchTerm) {
       filteredData = filteredData.filter(
         (row) =>
-          row.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          row.userName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
           row.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          row.phone.includes(this.searchTerm) ||
-          row.branch.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          row.status.toLowerCase().includes(this.searchTerm.toLowerCase())
+          row.phoneNumber.includes(this.searchTerm) ||
+          row.branchName
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase()) ||
+          String(row.status)
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase())
       );
     }
 
