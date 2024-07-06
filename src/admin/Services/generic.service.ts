@@ -1,39 +1,66 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IPaginationDTO } from '../DTOs/DisplayDTOs/IPaginationDTO';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
-export class GenericService<T1 extends object , T2 extends object, T3 extends object, T4> {
-
-  baseUrl:string;
-  headers:HttpHeaders;
-  constructor(private httpClient:HttpClient) { 
+export class GenericService<
+  T1 extends object,
+  T2 extends object,
+  T3 extends object
+> {
+  baseUrl: string;
+  headers: HttpHeaders;
+  constructor(private httpClient: HttpClient) {
     this.baseUrl = '';
+    // this.headers = new HttpHeaders({
+    //   Authorization: `Bearer ${localStorage.getItem('Token')}`,
+    //   'Access-Control-Allow-Origin': '*',
+    // });
     this.headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-      'Access-Control-Allow-Origin': '*'
+      Authorization: `Bearer `,
+      'Access-Control-Allow-Origin': '*',
     });
   }
 
-  GetAll(){
-    return this.httpClient.get<T1[]>('http://localhost:5241/api/'+this.baseUrl, {headers: this.headers})
+  GetAll(url:string) {
+    return this.httpClient.get<T1[]>(
+      url,
+      { headers: this.headers }
+    );
   }
 
-  GetById(id:number){
-    return this.httpClient.get<T1 | undefined>(`http://localhost:5241/api/${this.baseUrl}/${id}`, {headers: this.headers});
+  GetPage(url:string) {
+    return this.httpClient.get<IPaginationDTO<T1>>(
+      url,
+      { headers: this.headers }
+    );
   }
 
-  Add(element:T2){
-    return this.httpClient.post<any>('http://localhost:5241/api/'+this.baseUrl, element, {headers: this.headers});
+  GetById(url:string) {
+    return this.httpClient.get<T1 | undefined>(
+      url,
+      { headers: this.headers }
+    );
   }
 
-  Edit(id:number,element:T3){
-    return this.httpClient.put(`http://localhost:5241/api/${this.baseUrl}/${id}`, element, {headers: this.headers});
+  Add(url:string, element: T2) {
+    return this.httpClient.post<any>(
+      url,
+      element,
+      { headers: this.headers }
+    );
   }
 
-  Delete(id:T4){
-    return this.httpClient.delete(`http://localhost:5241/api/${this.baseUrl}/${id}`, {headers: this.headers});
+  Edit(url:string, element:T3){
+    return this.httpClient.put(url, element, {headers: this.headers});
+  }
+
+  Delete(url:string) {
+    return this.httpClient.delete(
+      url,
+      { headers: this.headers }
+    );
   }
 }

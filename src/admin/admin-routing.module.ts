@@ -9,6 +9,9 @@ import { EmployeeEditComponent } from './Components/employee-edit/employee-edit.
 import { EmployeshowComponent } from './Components/employee-show/employe-show.component';
 import { EmployeeAddComponent } from './Components/employee-add/employee-add.component';
 
+import { GovernorateListComponent } from './Components/governorate-list/governorate-list.component';
+
+
 const routes: Routes = [
   { path: 'representative/add', component: RepresentativeFormComponent },
   { path: 'representative/edit/:id', component: RepresentativeFormComponent },
@@ -17,9 +20,13 @@ const routes: Routes = [
   { path: 'merchant/edit/:id', component: MerchantEditComponent },
   { path: 'branch/add', component: BranchFromComponent },
   { path: 'branch/edit/:id', component: BranchFromComponent },
+
   {path: 'employee',component:EmployeshowComponent},
  {path:'employee/add',component:EmployeeAddComponent},
   {path:'employee/edit/:id',component:EmployeeEditComponent},
+
+  { path: 'governorate', component:GovernorateListComponent}
+
 ];
 
 @NgModule({

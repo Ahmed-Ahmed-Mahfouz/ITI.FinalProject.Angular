@@ -9,10 +9,13 @@
 }
 
 h2 {
-  text-align: left;
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 30px;
   color: #1a1a1a;
   font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 1px #ccc;
 }
 
 form {
@@ -69,7 +72,7 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
   width: 10%;
   margin-top: 10px;
   text-align: center;
@@ -103,10 +106,13 @@ button:hover {
 
 .text {
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   text-align: center;
-  color: #333;
+  color: #1a1a1a;
   margin-bottom: 0;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 1px #ccc;
+
 }
 
 .save-button-container {
@@ -167,6 +173,11 @@ button:hover {
   font-weight: bold;
   font-size: 1em;
   font-weight: bold;
+}
+
+.bi-plus-lg,
+.bi-check-lg {
+  -webkit-text-stroke: 1px;
 }
 
 /* Responsive Styles */
