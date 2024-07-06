@@ -34,15 +34,15 @@ export class MerchantListComponent implements OnInit {
   }
 
   loadMerchants(): void {
-    // this.merchantService.GetAll().subscribe(
-    //   (merchants) => {
-    //     this.data = merchants;
-    //     this.updateTable();
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching merchants:', error);
-    //   }
-    // );
+    this.merchantService.GetAll("").subscribe(
+      (merchants) => {
+        this.data = merchants;
+        this.updateTable();
+      },
+      (error) => {
+        console.error('Error fetching merchants:', error);
+      }
+    );
   }
 
   onEntriesChange(): void {
