@@ -1,6 +1,6 @@
 import { Status } from "../../Enums/Status";
 
-export interface IDisplayCity{
+export interface IUpdateCity{
     id:number;
     name:string;
     status:Status;
