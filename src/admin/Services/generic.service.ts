@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IPaginationDTO } from '../DTOs/DisplayDTOs/IPaginationDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -7,8 +8,7 @@ import { Injectable } from '@angular/core';
 export class GenericService<
   T1 extends object,
   T2 extends object,
-  T3 extends object,
-  T4
+  T3 extends object
 > {
   baseUrl: string;
   headers: HttpHeaders;
@@ -24,35 +24,42 @@ export class GenericService<
     });
   }
 
-  GetAll() {
+  GetAll(url:string) {
     return this.httpClient.get<T1[]>(
-      'https://localhost:7057/api/' + this.baseUrl,
+      url,
       { headers: this.headers }
     );
   }
 
-  GetById(id: T4) {
+  GetPage(url:string) {
+    return this.httpClient.get<IPaginationDTO<T1>>(
+      url,
+      { headers: this.headers }
+    );
+  }
+
+  GetById(url:string) {
     return this.httpClient.get<T1 | undefined>(
-      `https://localhost:7057/api/${this.baseUrl}/${id}`,
+      url,
       { headers: this.headers }
     );
   }
 
-  Add(element: T2) {
+  Add(url:string, element: T2) {
     return this.httpClient.post<any>(
-      'https://localhost:7057/api/' + this.baseUrl,
+      url,
       element,
       { headers: this.headers }
     );
   }
 
-  Edit(id:T4,element:T3){
-    return this.httpClient.put(`http://localhost:5241/api/${this.baseUrl}/${id}`, element, {headers: this.headers});
+  Edit(url:string, element:T3){
+    return this.httpClient.put(url, element, {headers: this.headers});
   }
 
-  Delete(id: T4) {
+  Delete(url:string) {
     return this.httpClient.delete(
-      `https://localhost:7057/api/${this.baseUrl}/${id}`,
+      url,
       { headers: this.headers }
     );
   }
