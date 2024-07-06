@@ -1,7 +1,7 @@
 import { OrderStatus } from '../../Enums/OrderStatus';
 import { OrderTypes } from '../../Enums/OrderTypes';
 import { PaymentTypes } from '../../Enums/PaymentTypes';
-import { IDisplayProduct } from './IProduct';
+import { IDisplayProduct } from './IDisplayProduct';
 
 export interface IDisplayOrder {
   id: number;

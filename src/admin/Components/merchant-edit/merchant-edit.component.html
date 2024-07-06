@@ -1,6 +1,15 @@
 <div class="form-container">
   <h2>Edit Merchant</h2>
-  <form [formGroup]="merchantForm">
+
+  <!-- Success and delete alerts -->
+  <div *ngIf="successAlert" class="alert alert-success">
+    Special Package added successfully!
+  </div>
+  <div *ngIf="deleteAlert" class="alert alert-danger">
+    Special Package deleted!
+  </div>
+
+  <form [formGroup]="merchantForm" (ngSubmit)="onSubmit()">
     <!-- Merchant details form -->
     <div class="form-row">
       <div class="form-group">
@@ -29,23 +38,20 @@
     <div class="form-row">
       <div class="form-group">
         <label for="branch">Branch</label>
-        <select id="branch" name="branch" formControlName="branchName" required>
-          <option value="" disabled selected>Select branch</option>
-          <!-- Add your branches here -->
+        <select id="branch" formControlName="branchName" required>
+          <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="governorate">Governorate</label>
-        <select id="governorate" name="governorate" formControlName="governorateName" required>
-          <option value="" disabled selected>Select Governorate</option>
-          <!-- Add your governorates here -->
+        <select id="governorate" formControlName="governorateName" required>
+          <option *ngFor="let governorate of governorates" [value]="governorate.id">{{ governorate.name }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="city">City</label>
-        <select id="city" name="city" formControlName="cityName" required>
-          <option value="" disabled selected>Select City</option>
-          <!-- Add your cities here -->
+        <select id="city" formControlName="cityName" required>
+          <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
         </select>
       </div>
     </div>
@@ -76,37 +82,42 @@
         </thead>
         <tbody>
           <!-- Iterate over existing data -->
-          <tr *ngFor="let package of specialPackages">
+          <tr *ngFor="let package of specialPackages; let i = index">
             <td>{{ package.governorateName }}</td>
             <td>{{ package.cityName }}</td>
             <td>{{ package.shippingPrice }}</td>
             <td class="settings">
-              <button type="button" class="setting">
+              <button type="button" class="setting" (click)="deleteSpecialPackage(i)">
                 <i class="bi bi-trash"></i>
               </button>
             </td>
           </tr>
           <!-- Conditionally display the new package fields -->
-          <tr *ngIf="addSpecialPackage">
+          <tr *ngIf="addSpecialPackage" [formGroup]="newPackageForm">
             <td>
               <div class="form-group">
-                <input type="text" class="form-control" [(ngModel)]="newPackage.governorateId" required>
+                <select class="form-control" formControlName="governorateId" required>
+                  <option *ngFor="let governorate of governorates" [value]="governorate.id">{{ governorate.name }}
+                  </option>
+                </select>
               </div>
             </td>
             <td>
               <div class="form-group">
-                <input type="text" class="form-control" [(ngModel)]="newPackage.cityId" required>
+                <select class="form-control" formControlName="cityId" required>
+                  <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+                </select>
               </div>
             </td>
             <td>
               <div class="form-group">
-                <input type="number" class="form-control" [(ngModel)]="newPackage.shippingPrice" required>
+                <input type="number" class="form-control" formControlName="shippingPrice" required>
               </div>
             </td>
             <td>
-              <!-- <button type="button" class="setting2" (click)="addSpecialPackage()">
+              <button type="button" class="setting2" (click)="saveSpecialPackage()">
                 <i class="bi bi-check-lg"></i>
-              </button> -->
+              </button>
             </td>
           </tr>
         </tbody>
@@ -127,13 +138,4 @@
       <button type="submit" class="save-btn">Save Merchant <i class="bi bi-check-lg"></i></button>
     </div>
   </form>
-
-
-  <!-- Success and delete alerts -->
-  <div *ngIf="successAlert" class="alert alert-success">
-    Special Package added successfully!
-  </div>
-  <div *ngIf="deleteAlert" class="alert alert-danger">
-    Special Package deleted!
-  </div>
 </div>

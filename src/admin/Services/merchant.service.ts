@@ -4,7 +4,6 @@ import { GenericService } from './generic.service';
 import { IDisplayMerchant } from '../DTOs/DisplayDTOs/IDisplayMerchant';
 import { IAddMerchant } from '../DTOs/InsertDTOs/IAddMerchant';
 import { IUpdateMerchant } from '../DTOs/UpdateDTOs/IUpdateMerchant';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

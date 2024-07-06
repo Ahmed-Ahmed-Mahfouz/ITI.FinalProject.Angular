@@ -1,6 +1,6 @@
 import { Status } from '../../Enums/Status';
 
-export interface IDisplayBranch {
+export interface IUpdateBranch {
   id: number;
   name: string;
   status: Status;

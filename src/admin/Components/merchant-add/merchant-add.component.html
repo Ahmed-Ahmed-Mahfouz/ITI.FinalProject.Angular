@@ -1,6 +1,7 @@
 <div class="form-container">
   <h2>Add Merchant</h2>
-  <form action="#" method="post">
+
+  <form>
     <div class="form-row">
       <div class="form-group">
         <label for="name">Name</label>
@@ -9,10 +10,6 @@
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
       </div>
     </div>
     <div class="form-row">
@@ -25,27 +22,27 @@
         <input type="text" id="phone" name="phone" required>
       </div>
       <div class="form-group">
-        <label for="branch">Branch</label>
-        <input type="text" id="branch" name="branch" required>
+        <label for="store_name">Store Name</label>
+        <input type="text" id="store_name" name="store_name" required>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label for="publisher_name">Store Name</label>
-        <input type="text" id="publisher_name" name="publisher_name" required>
+        <label for="branch">Branch</label>
+        <select id="branch" required>
+          <option>Select Branch</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="governorate">Governorate</label>
-        <select id="governorate" name="governorate" required>
-          <option value="" disabled selected>Select Governorate</option>
-          <!-- Add your governorates here -->
+        <select id="governorate" required>
+          <option>Select Governorate</option>
         </select>
       </div>
       <div class="form-group">
         <label for="city">City</label>
-        <select id="city" name="city" required>
-          <option value="" disabled selected>Select City</option>
-          <!-- Add your cities here -->
+        <select id="city" required>
+          <option>Select City</option>
         </select>
       </div>
     </div>
@@ -55,16 +52,13 @@
         <input type="number" id="pickup_cost" name="pickup_cost" required>
       </div>
       <div class="form-group">
-        <label for="merchant_percentage">Special Merchant Percentage</label>
+        <label for="merchant_percentage">Special Merchant Percentage (%)</label>
         <input type="number" id="merchant_percentage" name="merchant_percentage" required>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <p class="text">Add special price package <button type="button" class="add-new-btn">Add New
-            <i class="bi bi-plus-lg"></i>
-          </button></p>
-      </div>
+
+    <div class="form-group">
+      <p class="text">Special price packages</p>
     </div>
     <div class="table-container">
       <table class="product-table">
@@ -77,23 +71,62 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Iterate over existing data -->
           <tr>
-            <td>Cairo</td>
-            <td>Nasr City</td>
-            <td>100 L.E</td>
+            <td>Governorate Name</td>
+            <td>City Name</td>
+            <td>Shipping Price</td>
             <td class="settings">
-              <div class="trash-settings">
-                <a href="#" class="setting">
-                  <i class="bi bi-trash"></i>
-                </a>
+              <button type="button" class="setting">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+          <!-- Conditionally display the new package fields -->
+          <tr>
+            <td>
+              <div class="form-group">
+                <select class="form-control" required>
+                  <option>
+                    Select Governorate
+                  </option>
+                </select>
               </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <select class="form-control" required>
+                  <option>
+                    Select City
+                  </option>
+                </select>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input type="number" class="form-control" required>
+              </div>
+            </td>
+            <td>
+              <button type="button" class="setting2">
+                <i class="bi bi-check-lg"></i>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="form-row save-button-container">
-      <button type="submit" class="save-btn">Save <i class="bi bi-check-lg"></i></button>
+
+    <!-- Button to add new row -->
+    <div class="form-row add-button-container">
+      <button type="button" class="add-new-btn">
+        Add New <i class="bi bi-plus-lg"></i>
+      </button>
+    </div>
+
+    <!-- Save button for the form -->
+    <div class="form-row save-button-container mb-0">
+      <button type="submit" class="save-btn">Save Merchant <i class="bi bi-check-lg"></i></button>
     </div>
   </form>
 </div>
