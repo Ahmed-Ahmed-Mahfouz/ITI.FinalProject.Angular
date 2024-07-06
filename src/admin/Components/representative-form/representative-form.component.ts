@@ -2,7 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, MinValidator, Validators,ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GenericService } from '../../Services/generic.service';
+import { IRepresentativeInsert } from '../../DTOs/InsertDTOs/IRepresentativeInsert';
+import { IRepresentative } from '../../DTOs/DisplayDTOs/IRepresentative';
+import { IRepresentativeUpdate } from '../../DTOs/UpdateDTOs/IRepresentativeUpdate';
+import { IBranch } from '../../DTOs/DisplayDTOs/IBranch';
+import { IBranchInsert } from '../../DTOs/InsertDTOs/IBranchInsert';
+import { IBranchUpdate } from '../../DTOs/UpdateDTOs/IBranchUpdate';
+import { IGovernorate } from '../../DTOs/DisplayDTOs/IGovernorate';
+import { routes } from '../../../app/app.routes';
 
 @Component({
   selector: 'app-representative-form',
@@ -15,18 +24,27 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RepresentativeFormComponent implements OnInit {
 
-  constructor(public route:ActivatedRoute) {
+  constructor(
+    public route:ActivatedRoute,
+    public representativeServ:GenericService<IRepresentative,IRepresentativeInsert,IRepresentativeUpdate,string>,
+    public branchServ:GenericService<IBranch,IBranchInsert,IBranchUpdate,number>,
+    public governorateServ:GenericService<IGovernorate,IBranchInsert,IBranchUpdate,number>,
+    public routing:Router
+  ) {
 
   }
 
-  branches=[{id:1,name:"b1"},{id:2,name:"b2"},{id:3,name:"b3"}]
-  governorates= [{id:1,name:"Menofia"},{id:2,name:"Cairo"},{id:3,name:"Alex"}]
+  representative:any;
+  representativeId:string=""
+  branches:IBranch[]=[]
+  governorates:IGovernorate[]= []
   selectedGovernorate:number[]=[]
   govLen:number =this.selectedGovernorate.length
   govFlag:boolean=false
 
 
- representative = new FormGroup({
+ representativeForm = new FormGroup({
+    // id: new FormControl(''),
     userFullName: new FormControl('', [Validators.required,Validators.minLength(2)]),
     email: new FormControl('', [Validators.required,Validators.email]),
     password: new FormControl('', [Validators.required,Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")]),
@@ -38,49 +56,97 @@ export class RepresentativeFormComponent implements OnInit {
     companyPercentage: new FormControl('', [Validators.required]),
     userStatus: new FormControl(0,[Validators.required]),
 
+
   })
 
+  // get getId()
+  // {
+  //   return this.representativeForm.controls['id'];
+  // }
   get getName()
   {
-    return this.representative.controls['userFullName'];
+    return this.representativeForm.controls['userFullName'];
   }
   get getEmail()
   {
-    return this.representative.controls['email'];
+    return this.representativeForm.controls['email'];
   }
   get getPassword()
   {
-    return this.representative.controls['password'];
+    return this.representativeForm.controls['password'];
   }
   get getBranch()
   {
-    return this.representative.controls['userBranchId'];
+    return this.representativeForm.controls['userBranchId'];
   }
   get getGovernorate()
   {
-    return this.representative.controls['governorateIds'];
+    return this.representativeForm.controls['governorateIds'];
   }
   get getPhone()
   {
-    return this.representative.controls['userPhoneNo'];
+    return this.representativeForm.controls['userPhoneNo'];
   }
   get getAddress()
   {
-    return this.representative.controls['userAddress'];
+    return this.representativeForm.controls['userAddress'];
   }
   get getDiscount()
   {
-    return this.representative.controls['discountType'];
+    return this.representativeForm.controls['discountType'];
   }
   get getCompanyPercentage()
   {
-    return this.representative.controls['companyPercentage'];
+    return this.representativeForm.controls['companyPercentage'];
   }
 
   ngOnInit(): void {
+    //get id from URL
     this.route.params.subscribe({
       next:(params)=> {
-        console.log(params['id']);
+        this.representativeId=params['id'];
+
+        if (this.representativeId) {
+          this.representativeServ.baseUrl="representative"
+          this.representativeServ.GetById(this.representativeId).subscribe({
+            next: (value) => {
+              this.representative = value;
+              console.log(this.representative);
+              // this.getId.setValue(this.representative.id)
+              this.getName.setValue(this.representative?.userFullName)
+              this.getEmail.setValue(this.representative.email)
+              this.getPassword.setValue(this.representative.password)
+              this.getBranch.setValue(this.representative.userBranchId)
+              this.getGovernorate.setValue(this.representative.governorateIds)
+              this.getPhone.setValue(this.representative.userPhoneNo)
+              this.getAddress.setValue(this.representative.userAddress)
+              this.getDiscount.setValue(this.representative.discountType)
+              this.getCompanyPercentage.setValue(this.representative.companyPercentage)
+
+            },
+            error: (err) => {
+              console.log(err);
+
+            },
+          })
+        }
+
+      },
+    })
+
+    //get branches
+    this.branchServ.baseUrl="Branches"
+    this.branchServ.GetAll().subscribe({
+      next:(value)=> {
+        this.branches=value;
+      },
+    })
+
+    //get governorate
+    this.governorateServ.baseUrl="governorate"
+    this.governorateServ.GetAll().subscribe({
+      next:(value)=> {
+        this.governorates=value
 
       },
     })
@@ -89,12 +155,45 @@ export class RepresentativeFormComponent implements OnInit {
 
   onSubmit(){
 
-    this.representative.controls['governorateIds'].setValue(this.selectedGovernorate);
-    this.representative.controls['userBranchId'].setValue(Number(this.getBranch.value));
-    this.representative.controls['discountType'].setValue(Number(this.getDiscount.value));
-    console.log(this.representative.value)
-    return false;
+    this.representativeForm.controls['governorateIds'].setValue(this.selectedGovernorate);
+    this.representativeForm.controls['userBranchId'].setValue(Number(this.getBranch.value));
+    this.representativeForm.controls['discountType'].setValue(Number(this.getDiscount.value));
+    let Rep:any = {...this.representativeForm.value,id:this.representativeId}
+    console.log(Rep);
+
+
+    if(this.representativeId){
+      this.representativeServ.baseUrl="representative"
+      this.representativeServ.Edit(this.representativeId,Rep).subscribe({
+        next:(value)=> {
+          console.log(value);
+
+        },
+        error:(err)=> {
+          console.log(err);
+
+        },
+      })
+    }else{
+      let newRep:any= this.representativeForm.value
+      console.log(newRep);
+      this.representativeServ.baseUrl="representative"
+      this.representativeServ.Add(newRep).subscribe({
+        next:(value)=> {
+          console.log(value);
+
+        },
+        error:(err)=> {
+          console.log(err);
+
+        },
+      })
+    }
+    this.routing.navigate(['admin/representative']);
+
   }
+
+
   selectGov(e:any){
 
     if(e.target['checked']){

@@ -9,7 +9,7 @@ export class GenericService<T1 extends object , T2 extends object, T3 extends ob
 
   baseUrl:string;
   headers:HttpHeaders;
-  constructor(private httpClient:HttpClient) { 
+  constructor(private httpClient:HttpClient) {
     this.baseUrl = '';
     this.headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem("Token")}`,
@@ -21,7 +21,7 @@ export class GenericService<T1 extends object , T2 extends object, T3 extends ob
     return this.httpClient.get<T1[]>('http://localhost:5241/api/'+this.baseUrl, {headers: this.headers})
   }
 
-  GetById(id:number){
+  GetById(id:T4){
     return this.httpClient.get<T1 | undefined>(`http://localhost:5241/api/${this.baseUrl}/${id}`, {headers: this.headers});
   }
 
@@ -29,7 +29,7 @@ export class GenericService<T1 extends object , T2 extends object, T3 extends ob
     return this.httpClient.post<any>('http://localhost:5241/api/'+this.baseUrl, element, {headers: this.headers});
   }
 
-  Edit(id:number,element:T3){
+  Edit(id:T4,element:T3){
     return this.httpClient.put(`http://localhost:5241/api/${this.baseUrl}/${id}`, element, {headers: this.headers});
   }
 

@@ -1,0 +1,36 @@
+<div class="table-container">
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Adding Date</th>
+        <th>Status</th>
+        <th>Settings</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let branch of branches; let i = index">
+        <td>{{branch.id}}</td>
+        <td>
+          <div class="name-role">
+            <span class="name">{{branch.name}}</span>
+          </div>
+        </td>
+        <td>{{getCityName(branch.cityId)}}</td>
+        <td>{{branch.addingDate}}</td>
+        <td><span class="badge active">{{StatusName(branch.status)}}</span></td>
+        <td>
+          <div class="settings">
+            <a [href]="'/admin/branch/edit/'+branch.id" class="setting">
+              <i class="bi bi-pencil"></i>
+            </a>
+            <a  class="setting" (click)="deleteBranch(branch.id)">
+              <i class="bi bi-trash3 text-danger px-1"></i>
+            </a>
+          </div>
+      </tr>
+    </tbody>
+  </table>
+</div>

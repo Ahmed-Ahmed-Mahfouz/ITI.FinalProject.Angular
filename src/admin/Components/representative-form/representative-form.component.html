@@ -2,7 +2,7 @@
 <h1 class=" text-center my-5">Add Representative</h1>
 
 
-<form [formGroup]="representative" class=" d-flex flex-row flex-wrap " >
+<form [formGroup]="representativeForm" class=" d-flex flex-row flex-wrap " >
   <!--  -->
 
     <div class="row d-flex flex-row w-100 justify-content-around">
@@ -89,8 +89,20 @@
         </label>
       </div>
     </div>
+    <div class="row d-flex flex-row w-100 justify-content-around">
+      <div class="col-4 mb-3  d-flex flex-column">
+
+        <label for="status" class="form-label ">Status</label>
+        <select  class="select form-select p-1" aria-label="Default select example" formControlName="userStatus">
+          <option selected value="1">Active</option>
+          <option value="0">InActive</option>
+        </select>
+        <label class="error"></label>
+
+      </div>
+    </div>
     <div class="row">
-      <button (click)="onSubmit()" [disabled]="!(representative.valid && govLen)" class="btn btn-primary ms-2">Submit</button>
+      <button (click)="onSubmit()"  [disabled]="!(representativeForm.valid && govLen)" class="btn btn-primary ms-2">Submit</button>
     </div>
 
 </form>
