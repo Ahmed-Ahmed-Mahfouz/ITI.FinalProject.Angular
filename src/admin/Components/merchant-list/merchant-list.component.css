@@ -232,7 +232,7 @@
   }
 
   .product-table td:nth-of-type(1):before {
-    content: "Id";
+    content: "#";
   }
 
   .product-table td:nth-of-type(2):before {

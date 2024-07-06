@@ -19,7 +19,7 @@
   <table class="product-table">
     <thead>
       <tr>
-        <th>Id</th>
+        <th>#</th>
         <th>Name</th>
         <th>Email</th>
         <th>Phone</th>
@@ -29,23 +29,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of pagedData">
-        <td>{{ row.id }}</td>
+      <tr *ngFor="let row of pagedData; let i = index">
+        <td>{{ getRowIndex(i) }}</td>
         <td>
           <div class="name-role">
-            <span class="name">{{ row.name }}</span>
+            <span class="name">{{ row.userName }}</span>
           </div>
         </td>
         <td>{{ row.email }}</td>
-        <td><span>{{ row.phone }}</span></td>
-        <td>{{ row.branch }}</td>
+        <td><span>{{ row.phoneNumber }}</span></td>
+        <td>{{ row.branchName }}</td>
         <td>
-          <span class="badge" [ngClass]="{'active': row.status === 'Active', 'inactive': row.status === 'Inactive'}">{{
-            row.status }}</span>
+          <span class="badge"
+            [ngClass]="{'active': getStatusText(row.status) === 'Active', 'inActive': getStatusText(row.status) === 'Inactive'}">
+            {{ getStatusText(row.status) }}
+          </span>
         </td>
         <td class="settings">
           <div class="pen-settings">
-            <a href="#" class="setting">
+            <a class="setting" [routerLink]="['/admin/merchant/edit', row.id]">
               <i class="bi bi-pencil"></i>
             </a>
           </div>
