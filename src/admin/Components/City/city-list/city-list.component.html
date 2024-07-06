@@ -19,7 +19,7 @@
     <table class="product-table">
       <thead>
         <tr>
-          <th>Id</th>
+          <th>No.</th>
           <th>Name</th>
           <th>Governorate</th>
           <th>Normal Shipping Cost</th>
@@ -28,19 +28,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of pagedData">
-          <td>{{ row.id }}</td>
+        <tr *ngFor="let row of pagedData;let i=index;">
+          <td>{{  getRowIndex(i) }}</td>
           <td>
             <div class="name-role">
               <span class="name">{{ row.name }}</span>
             </div>
           </td>
-          <td><span>{{ row.Governorate }}</span></td>
-          <td>{{ row.NormalShippingCost}}</td>
-          <td>{{row.PickUpShippingCost}}</td>
+          <td><span>{{ row.governorateId }}</span></td>
+          <td>{{ row.normalShippingCost}}</td>
+          <td>{{row.pickupShippingCost}}</td>
           <td class="settings">
             <div class="pen-settings">
-              <a href="#" class="setting">
+              <a class="setting" [routerLink]="['/admin/city/edit', row.id]">
                 <i class="bi bi-pencil"></i>
               </a>
             </div>

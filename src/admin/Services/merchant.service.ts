@@ -12,8 +12,7 @@ import { Observable } from 'rxjs';
 export class MerchantService extends GenericService<
   IDisplayMerchant,
   IAddMerchant,
-  IUpdateMerchant,
-  string
+  IUpdateMerchant
 > {
   constructor(httpClient: HttpClient) {
     super(httpClient);

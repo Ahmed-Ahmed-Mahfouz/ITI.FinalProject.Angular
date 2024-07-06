@@ -1,45 +1,20 @@
+import { IDisplayCity } from './../../../DTOs/DisplayDTOs/IDisplayCity';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { CityService } from '../../../Services/city.service';
+import { Status } from '../../../Enums/Status';
 
 @Component({
   selector: 'app-city-list',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterModule],
   templateUrl: './city-list.component.html',
   styleUrl: './city-list.component.css'
 })
 export class CityListComponent implements OnInit{
-    data = [
-      {
-        id: 1,
-        name: 'Benha',
-        Governorate: 'Qaluoibya',
-        NormalShippingCost: '100',
-        PickUpShippingCost: '150',
-      },
-      {
-        id: 2,
-        name: 'Maadi',
-        Governorate: 'Cairo',
-        NormalShippingCost: '40',
-        PickUpShippingCost: '250',
-      },
-      {
-        id: 3,
-        name: 'Sidi Gaber',
-        Governorate: 'Alexandria',
-        NormalShippingCost: '500',
-        PickUpShippingCost: '750',
-      },
-      {
-        id: 4,
-        name: 'Faisal',
-        Governorate: 'Giza',
-        NormalShippingCost: '500',
-        PickUpShippingCost: '800',
-      }
-    ];
+    data:IDisplayCity[]=[];
   
     selectedEntries = 8;
     searchTerm = '';
@@ -47,26 +22,30 @@ export class CityListComponent implements OnInit{
     totalPages = 0;
     startIndex = 0;
     endIndex = 0;
+    filteredData: IDisplayCity[]=[];
+    pagedData: IDisplayCity[]=[];
+  
+    constructor(
+      private cityService:CityService,
+      private router:Router
+    ){}
 
-    filteredData: {
-      id: number;
-      name: string;
-      Governorate: string;
-      NormalShippingCost: string;
-      PickUpShippingCost: string;
-    }[] = [];
-    pagedData: {
-      id: number;
-      name: string;
-      Governorate: string;
-      NormalShippingCost: string;
-      PickUpShippingCost: string;
-    }[] = [];
-  
     ngOnInit(): void {
-      this.updateTable();
+      this.loadCities();
     }
-  
+
+    loadCities(): void {
+      this.cityService.GetAll("https://localhost:7057/api/Cities").subscribe(
+        (cities) => {
+          this.data = cities;
+          this.updateTable();
+        },
+        (error) => {
+          console.error('Error fetching Cities:', error);
+        }
+      );
+    }
+
     onEntriesChange(): void {
       this.currentPage = 1;
       this.updateTable();
@@ -103,10 +82,8 @@ export class CityListComponent implements OnInit{
       if (this.searchTerm) {
         filteredData = filteredData.filter(
           (row) =>
-            row.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            row.Governorate.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            row.NormalShippingCost.includes(this.searchTerm) ||
-            row.PickUpShippingCost.toLowerCase().includes(this.searchTerm.toLowerCase())
+            row.name.toLowerCase().includes(this.searchTerm.toLowerCase())||
+          this.getStatusText(row.status).toLowerCase().includes(this.searchTerm.toLowerCase())
         );
       }
     
@@ -121,5 +98,10 @@ export class CityListComponent implements OnInit{
       );
       this.pagedData = this.filteredData.slice(this.startIndex, this.endIndex);
     }
-  
+    getStatusText(status: Status): string {
+      return Status[status];
+    }
+    getRowIndex(index: number): number {
+      return this.startIndex + index + 1;
+    }
 }

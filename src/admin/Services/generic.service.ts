@@ -13,13 +13,15 @@ export class GenericService<
   baseUrl: string;
   headers: HttpHeaders;
   constructor(private httpClient: HttpClient) {
-    this.baseUrl = '';
+     this.baseUrl = '';
+    //this.baseUrl = 'Cities';
+
     // this.headers = new HttpHeaders({
     //   Authorization: `Bearer ${localStorage.getItem('Token')}`,
     //   'Access-Control-Allow-Origin': '*',
     // });
     this.headers = new HttpHeaders({
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiZTVlMDQwYjAtMWRmMy00ZDRkLTg4ZmItNDNiYmJhMjVmNTgwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluIiwiRXhwaXJlRGF0ZSI6IlN1bmRheSwgSnVseSA3LCAyMDI0IDM6MjUgQU0iLCJVc2VyVHlwZSI6IkFkbWluIiwiZXhwIjoxNzIwMzExOTE1fQ.aIflQpb6Zr9JXslnREWtOQ9GpRp83--iAhn-M5FZM9A`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiODYyOGQ1NGYtMDljMC00OGNkLTk0N2EtYTE2NWIzMWJjNmYyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluIiwiRXhwaXJlRGF0ZSI6IlN1bmRheSwgSnVseSA3LCAyMDI0IDExOjIxIFBNIiwiVXNlclR5cGUiOiJBZG1pbiIsImV4cCI6MTcyMDM4MzY2NH0.03IWTjocLC6FaMcG-7j-7PaFVZAqpZbk8VEIfPqim8E`,
       'Access-Control-Allow-Origin': '*',
     });
   }
