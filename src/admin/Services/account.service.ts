@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-//import { environment } from '../../Environments/environment';
 import { Observable } from 'rxjs';
 import { IAccountView, LoginCredentials, LoginResponse } from '../DTOs/InsertDTOs/IAccount';
 import { GenericService } from './generic.service';
@@ -14,25 +13,11 @@ export class AccountService {
   Role: string[] = [];
   private token = '';
   Name = '';
-  // APIURL = environment.APIURL;
   private genericService: GenericService<IAccountView, LoginCredentials, any, number>;
 
   constructor(private httpClient: HttpClient, private router: Router) {
     this.genericService = new GenericService<IAccountView, LoginCredentials, any, number>(httpClient);
-    // this.genericService.baseUrl = `login`;
-    
-    // let tokenString = decodeURIComponent(document.cookie).split('token=')[1];
-    // if (!tokenString) {
-    //   return;
-    // }
-    // const token = JSON.parse(tokenString) as LoginResponse;
-    // if (token) {
-    //   console.log(token);
-    //   this.IsLogged = true;
-    //   this.Role = token.Role;
-    //   this.token = token.token;
-    //   this.Name = token.name;
-    // }
+   
   }
 
   checkExistingUser(email: string): Observable<boolean> {
