@@ -8,6 +8,8 @@ import { BranchFromComponent } from './Components/branch-from/branch-from.compon
 import { CityListComponent } from './Components/City/city-list/city-list.component';
 import { CityAddComponent } from './Components/City/city-add/city-add.component';
 import { CityEditComponent } from './Components/City/city-edit/city-edit.component';
+import { GovernorateListComponent } from './Components/governorate-list/governorate-list.component';
+
 
 const routes: Routes = [
   { path: 'representative/add', component: RepresentativeFormComponent },
@@ -19,7 +21,8 @@ const routes: Routes = [
   { path: 'branch/edit/:id', component: BranchFromComponent },
   {path:'city',component:CityListComponent},
   {path:'city/add',component:CityAddComponent},
-  {path:'city/edit/:id',component:CityEditComponent}
+  {path:'city/edit/:id',component:CityEditComponent},
+  { path: 'governorate', component:GovernorateListComponent}
 ];
 
 @NgModule({
