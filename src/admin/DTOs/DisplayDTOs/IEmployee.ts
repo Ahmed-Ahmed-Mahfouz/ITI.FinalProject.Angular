@@ -1,6 +1,7 @@
 import { Status } from "../../Enums/Status";
 
 export interface IEmployee{
+    
     id:number;
     fullName:string;
     address:string;
@@ -8,6 +9,7 @@ export interface IEmployee{
     userName:string;
     email:string;
     passwordHash:string;
+    branch:string;
     role:string;
     status:Status
 }

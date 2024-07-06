@@ -1,204 +1,48 @@
+import { EmployeeService } from './../../Services/employee.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { IEmployee } from '../../DTOs/DisplayDTOs/IEmployee';
+import { Status } from '../../Enums/Status';
 
 @Component({
   selector: 'app-employe-show',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './employe-show.component.html',
   styleUrls: ['./employe-show.component.css'],
 })
 export class EmployeshowComponent implements OnInit {
-  data = [
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 1,
-      name: 'Eslam Abuelyazeed',
-      email: 'Eslam@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Ahmed Mahfouz',
-      email: 'Ahmed@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Inactive',
-    },
-    {
-      id: 3,
-      name: 'Deep Javiya',
-      email: 'abeer6530@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    {
-      id: 4,
-      name: 'Deep Javiya',
-      email: 'mahmoud55@gmail.com',
-      phone: '01022756323',
-      branch: 'Cairo',
-      status: 'Active',
-    },
-    // Add more rows as needed
-  ];
-
+  data: IEmployee[] = [];
   selectedEntries = 8;
   searchTerm = '';
   currentPage = 1;
   totalPages = 0;
   startIndex = 0;
   endIndex = 0;
-  filteredData: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    branch: string;
-    status: string;
-  }[] = [];
-  pagedData: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    branch: string;
-    status: string;
-  }[] = [];
+  filteredData: IEmployee[] = [];
+  pagedData: IEmployee[] = [];
+
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.updateTable();
+    this.loadEmployees();
+  }
+
+  loadEmployees(): void {
+    this.employeeService.GetAll().subscribe(
+      (employees: IEmployee[]) => {
+        this.data = employees;
+        this.updateTable();
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   onEntriesChange(): void {
@@ -237,23 +81,26 @@ export class EmployeshowComponent implements OnInit {
     if (this.searchTerm) {
       filteredData = filteredData.filter(
         (row) =>
-          row.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          row.userName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
           row.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          row.phone.includes(this.searchTerm) ||
+          row.PhoneNumber.includes(this.searchTerm) ||
           row.branch.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          row.status.toLowerCase().includes(this.searchTerm.toLowerCase())
+          this.getStatusText(row.status).toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
 
     this.filteredData = filteredData;
-    this.totalPages = Math.ceil(
-      this.filteredData.length / this.selectedEntries
-    );
+    this.totalPages = Math.ceil(this.filteredData.length / this.selectedEntries);
     this.startIndex = (this.currentPage - 1) * this.selectedEntries;
-    this.endIndex = Math.min(
-      this.startIndex + this.selectedEntries,
-      this.filteredData.length
-    );
+    this.endIndex = Math.min(this.startIndex + this.selectedEntries, this.filteredData.length);
     this.pagedData = this.filteredData.slice(this.startIndex, this.endIndex);
+  }
+
+  getStatusText(status: Status): string {
+    return Status[status];
+  }
+
+  getRowIndex(index: number): number {
+    return this.startIndex + index + 1;
   }
 }

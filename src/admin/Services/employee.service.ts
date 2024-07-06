@@ -1,30 +1,20 @@
-import { IEmployee } from './../DTOs/InsertDTOs/IEmployeeInsert';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { GenericService } from './generic.service';
+import { IEmployee } from '../DTOs/DisplayDTOs/IEmployee';
+import { IEmployeeInsert } from '../DTOs/InsertDTOs/IEmployeeInsert';
+import { IEmployeeUpdate } from '../DTOs/UpdateDTOs/IEmployeeUpdate';
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeService {
-
-  baseURL:string="https://localhost:5241/api/Employee/";
-  constructor(public httpClient:HttpClient) { }
-
-  addEmployee(Employee:IEmployee){
-    return this.httpClient.post(this.baseURL,Employee);
+export class EmployeeService extends GenericService<
+IEmployee,
+  IEmployeeInsert,
+  IEmployeeUpdate,
+number
+>{
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
+    this.baseUrl = 'Employee';
   }
-  getAllEmployee(){
-    return this.httpClient.get(this.baseURL);
-  }
-  getEmployee(id:string){
-    return this.httpClient.get(this.baseURL+id);
-  }
-  editEmployee(id:string,Employee:IEmployee){
-    return this.httpClient.put(this.baseURL+id,Employee);
-  }
-  deleteEmployee(id:string){
-    return this.httpClient.delete(this.baseURL+id);
-  }
-
 }
-

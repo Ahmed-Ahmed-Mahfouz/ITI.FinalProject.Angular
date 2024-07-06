@@ -1,7 +1,7 @@
 <p>employe-show works!</p>
 <div class="table-controls">
     <div class="entries-select">
-      <label for="entries">Show</label>
+      <label for="entries">Employees</label>
       <select id="entries" [(ngModel)]="selectedEntries" (change)="onEntriesChange()">
         <option value="8">8</option>
         <option value="10">10</option>
@@ -34,15 +34,15 @@
           <td>{{ row.id }}</td>
           <td>
             <div class="name-role">
-              <span class="name">{{ row.name }}</span>
+              <span class="name">{{ row.fullName }}</span>
             </div>
           </td>
           <td>{{ row.email }}</td>
-          <td><span>{{ row.phone }}</span></td>
+          <td><span>{{ row.PhoneNumber }}</span></td>
           <td>{{ row.branch }}</td>
           <td>
-            <span class="badge" [ngClass]="{'active': row.status === 'Active', 'inactive': row.status === 'Inactive'}">{{
-              row.status }}</span>
+            <span class="badge" [ngClass]="{'active': getStatusText(row.status) === 'Active', 'inactive': getStatusText(row.status) === 'Inactive'}">{{ getStatusText(row.status) }}</span>
+
           </td>
           <td class="settings">
             <div class="pen-settings">
