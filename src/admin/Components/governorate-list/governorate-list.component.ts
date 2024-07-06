@@ -47,7 +47,7 @@ export class GovernorateListComponent implements OnInit, OnDestroy {
   }
   
   loadGovernorates(): void {
-    this.governorateService.GetPage("").subscribe({
+    this.governorateService.GetPage("https://localhost:7057/api/Governorate").subscribe({
       next: data =>{
         this.data = data.List;
         this.totalPages = data.TotalPages;
