@@ -33,7 +33,7 @@ export class CityEditComponent {
     
     this.cityId = Number(this.route.snapshot.paramMap.get('id'));
     if(this.cityId !=0){
-      this.cityService.GetById(`https://localhost:7057/api/Cities/${this.cityId}`).subscribe((city:IDisplayCity|undefined)=>{
+      this.cityService.GetById(this.cityId).subscribe((city:IDisplayCity|undefined)=>{
       if(this.cityForm&&city){
         console.log(city);
         this.cityForm.patchValue(city);

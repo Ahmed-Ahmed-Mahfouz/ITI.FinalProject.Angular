@@ -31,7 +31,7 @@ export class CityAddComponent {
     addCity(){
       const city:IAddCity = this.cityForm.value;
       console.log(city);
-      this.cityService.Add("https://localhost:7057/api/Cities",city).subscribe({next: (res)=>{
+      this.cityService.Add(city).subscribe({next: (res)=>{
         console.log(res);
 
       },

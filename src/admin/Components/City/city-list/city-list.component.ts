@@ -35,7 +35,7 @@ export class CityListComponent implements OnInit{
     }
 
     loadCities(): void {
-      this.cityService.GetAll("https://localhost:7057/api/Cities").subscribe(
+      this.cityService.GetAll().subscribe(
         (cities) => {
           this.data = cities;
           this.updateTable();
