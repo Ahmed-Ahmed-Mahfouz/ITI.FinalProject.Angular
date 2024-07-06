@@ -29,7 +29,7 @@ export class GenericService<T1 extends object , T2 extends object, T3 extends ob
     return this.httpClient.post<any>('http://localhost:5241/api/'+this.baseUrl, element, {headers: this.headers});
   }
 
-  Edit(id:number,element:T3){
+  Edit(id:T4,element:T3){
     return this.httpClient.put(`http://localhost:5241/api/${this.baseUrl}/${id}`, element, {headers: this.headers});
   }
 
