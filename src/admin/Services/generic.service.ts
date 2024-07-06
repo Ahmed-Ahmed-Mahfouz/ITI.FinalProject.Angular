@@ -19,7 +19,7 @@ export class GenericService<
     //   'Access-Control-Allow-Origin': '*',
     // });
     this.headers = new HttpHeaders({
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSb2xlIjoiQWRtaW4iLCJJZCI6ImRhZGMwZjkwLTA3M2MtNDEzZi04MGVjLTc1YmQyNjIwMzlmMSIsIlVzZXJOYW1lIjoiYWRtaW4iLCJFeHBpcmVEYXRlIjoiU2F0dXJkYXksIEp1bHkgNiwgMjAyNCAzOjI2IEFNIiwiVXNlclR5cGUiOiJBZG1pbiIsImV4cCI6MTcyMDIyNTU5OH0.XA11xpdkSjrtOt-B_Rzn3aaOqb55sZvTeYeWzDq4aI0`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiZTVlMDQwYjAtMWRmMy00ZDRkLTg4ZmItNDNiYmJhMjVmNTgwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluIiwiRXhwaXJlRGF0ZSI6IlN1bmRheSwgSnVseSA3LCAyMDI0IDM6MjUgQU0iLCJVc2VyVHlwZSI6IkFkbWluIiwiZXhwIjoxNzIwMzExOTE1fQ.aIflQpb6Zr9JXslnREWtOQ9GpRp83--iAhn-M5FZM9A`,
       'Access-Control-Allow-Origin': '*',
     });
   }
@@ -31,7 +31,7 @@ export class GenericService<
     );
   }
 
-  GetById(id: number) {
+  GetById(id: T4) {
     return this.httpClient.get<T1 | undefined>(
       `https://localhost:7057/api/${this.baseUrl}/${id}`,
       { headers: this.headers }
@@ -46,7 +46,7 @@ export class GenericService<
     );
   }
 
-  Edit(id: number, element: T3) {
+  Edit(id: T4, element: T3) {
     return this.httpClient.put(
       `https://localhost:7057/api/${this.baseUrl}/${id}`,
       element,

@@ -1,49 +1,49 @@
 <div class="form-container">
   <h2>Edit Merchant</h2>
-  <form action="#" method="post">
+  <form [formGroup]="merchantForm">
+    <!-- Merchant details form -->
     <div class="form-row">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" formControlName="userName" required>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <input type="email" id="email" name="email" formControlName="email" required>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" id="address" name="address" required>
+        <input type="text" id="address" name="address" formControlName="address" required>
       </div>
       <div class="form-group">
         <label for="phone">Phone</label>
-        <input type="text" id="phone" name="phone" required>
+        <input type="text" id="phone" name="phone" formControlName="phoneNumber" required>
       </div>
       <div class="form-group">
-        <label for="branch">Branch</label>
-        <input type="text" id="branch" name="branch" required>
+        <label for="store_name">Store Name</label>
+        <input type="text" id="store_name" name="store_name" formControlName="storeName" required>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label for="publisher_name">Store Name</label>
-        <input type="text" id="publisher_name" name="publisher_name" required>
+        <label for="branch">Branch</label>
+        <select id="branch" name="branch" formControlName="branchName" required>
+          <option value="" disabled selected>Select branch</option>
+          <!-- Add your branches here -->
+        </select>
       </div>
       <div class="form-group">
         <label for="governorate">Governorate</label>
-        <select id="governorate" name="governorate" required>
+        <select id="governorate" name="governorate" formControlName="governorateName" required>
           <option value="" disabled selected>Select Governorate</option>
           <!-- Add your governorates here -->
         </select>
       </div>
       <div class="form-group">
         <label for="city">City</label>
-        <select id="city" name="city" required>
+        <select id="city" name="city" formControlName="cityName" required>
           <option value="" disabled selected>Select City</option>
           <!-- Add your cities here -->
         </select>
@@ -52,15 +52,88 @@
     <div class="form-row">
       <div class="form-group">
         <label for="pickup_cost">Special Pickup Cost</label>
-        <input type="number" id="pickup_cost" name="pickup_cost" required>
+        <input type="number" id="pickup_cost" name="pickup_cost" formControlName="specialPickupShippingCost" required>
       </div>
       <div class="form-group">
-        <label for="merchant_percentage">Special Merchant Percentage</label>
-        <input type="number" id="merchant_percentage" name="merchant_percentage" required>
+        <label for="merchant_percentage">Special Merchant Percentage (%)</label>
+        <input type="number" id="merchant_percentage" name="merchant_percentage"
+          formControlName="merchantPayingPercentageForRejectedOrders" required>
       </div>
     </div>
-    <div class="form-row save-button-container">
-      <button type="submit" class="save-btn">Save</button>
+
+    <div class="form-group">
+      <p class="text">Special price packages</p>
+    </div>
+    <div class="table-container">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>Governorate</th>
+            <th>City</th>
+            <th>Shipping Price</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Iterate over existing data -->
+          <tr *ngFor="let package of specialPackages">
+            <td>{{ package.governorateName }}</td>
+            <td>{{ package.cityName }}</td>
+            <td>{{ package.shippingPrice }}</td>
+            <td class="settings">
+              <button type="button" class="setting">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+          <!-- Conditionally display the new package fields -->
+          <tr *ngIf="addSpecialPackage">
+            <td>
+              <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="newPackage.governorateId" required>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="newPackage.cityId" required>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input type="number" class="form-control" [(ngModel)]="newPackage.shippingPrice" required>
+              </div>
+            </td>
+            <td>
+              <!-- <button type="button" class="setting2" (click)="addSpecialPackage()">
+                <i class="bi bi-check-lg"></i>
+              </button> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Button to add new row -->
+    <div class="form-row add-button-container">
+      <button type="button" class="add-new-btn" [ngClass]="{'cancel-btn': addSpecialPackage}"
+        (click)="toggleAddNewPackage()">
+        {{ addSpecialPackage ? 'Cancel' : 'Add New' }} <i class="bi bi-plus-lg" *ngIf="!addSpecialPackage"></i><i
+          class="bi bi-x-lg" *ngIf="addSpecialPackage"></i>
+      </button>
+    </div>
+
+    <!-- Save button for the form -->
+    <div class="form-row save-button-container mb-0">
+      <button type="submit" class="save-btn">Save Merchant <i class="bi bi-check-lg"></i></button>
     </div>
   </form>
+
+
+  <!-- Success and delete alerts -->
+  <div *ngIf="successAlert" class="alert alert-success">
+    Special Package added successfully!
+  </div>
+  <div *ngIf="deleteAlert" class="alert alert-danger">
+    Special Package deleted!
+  </div>
 </div>

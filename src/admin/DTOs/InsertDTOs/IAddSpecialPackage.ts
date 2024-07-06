@@ -1,5 +1,4 @@
-export interface ISpecialPackage {
-  id: number;
+export interface IAddSpecialPackage {
   shippingPrice: number;
   cityId: number;
   governorateId: number;

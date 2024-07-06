@@ -1,7 +1,8 @@
 import { Status } from '../../Enums/Status';
+import { IUpdateSpecialPackage } from './IUpdateSpecialPackage';
 
 export interface IUpdateMerchant {
-  id: number;
+  id: string;
   storeName?: string;
   userName: string;
   passwordHash: string;
@@ -13,7 +14,8 @@ export interface IUpdateMerchant {
   specialPickupShippingCost?: number;
   status: Status;
   cityID: number;
+  branchId: number;
   cityName: string;
   governorateID: number;
-  governorateName: string;
+  specialPackages: IUpdateSpecialPackage[];
 }

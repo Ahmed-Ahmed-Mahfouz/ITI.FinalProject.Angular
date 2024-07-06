@@ -1,23 +1,22 @@
-import { ISpecialPackage } from './ISpecialPackage';
+import { IDisplaySpecialPackage } from './IDisplaySpecialPackage';
 import { IDisplayOrder } from './IOrder';
 import { Status } from '../../Enums/Status';
 
-export interface IMerchant {
-  governorateId?: number;
-  cityId?: number;
+export interface IDisplayMerchant {
   id: string;
   storeName?: string;
   userName: string;
   userId: string;
-  passwordHash: string;
   email: string;
   address: string;
   phoneNumber: string;
-  branchName: string;
   costPerRefusedOrder?: number;
+  branchName: string;
+  cityName: string;
+  governorateName: string;
+  status: Status;
   merchantPayingPercentageForRejectedOrders: number;
   specialPickupShippingCost?: number;
-  status: Status;
-  specialPackages: ISpecialPackage[];
+  specialPackages: IDisplaySpecialPackage[];
   orders: IDisplayOrder[];
 }

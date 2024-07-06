@@ -1,28 +1,33 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IMerchant } from '../../DTOs/DisplayDTOs/IMerchant';
+import { Router, RouterModule } from '@angular/router';
+import { IDisplayMerchant } from '../../DTOs/DisplayDTOs/IDisplayMerchant';
 import { MerchantService } from '../../Services/merchant.service';
+import { Status } from '../../Enums/Status';
 
 @Component({
   selector: 'app-merchant-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './merchant-list.component.html',
   styleUrls: ['./merchant-list.component.css'],
 })
 export class MerchantListComponent implements OnInit {
-  data: IMerchant[] = [];
+  data: IDisplayMerchant[] = [];
   selectedEntries = 8;
   searchTerm = '';
   currentPage = 1;
   totalPages = 0;
   startIndex = 0;
   endIndex = 0;
-  filteredData: IMerchant[] = [];
-  pagedData: IMerchant[] = [];
+  filteredData: IDisplayMerchant[] = [];
+  pagedData: IDisplayMerchant[] = [];
 
-  constructor(private merchantService: MerchantService) {}
+  constructor(
+    private merchantService: MerchantService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadMerchants();
@@ -82,7 +87,7 @@ export class MerchantListComponent implements OnInit {
           row.branchName
             .toLowerCase()
             .includes(this.searchTerm.toLowerCase()) ||
-          String(row.status)
+          this.getStatusText(row.status)
             .toLowerCase()
             .includes(this.searchTerm.toLowerCase())
       );
@@ -98,5 +103,13 @@ export class MerchantListComponent implements OnInit {
       this.filteredData.length
     );
     this.pagedData = this.filteredData.slice(this.startIndex, this.endIndex);
+  }
+
+  getStatusText(status: Status): string {
+    return Status[status];
+  }
+
+  getRowIndex(index: number): number {
+    return this.startIndex + index + 1;
   }
 }

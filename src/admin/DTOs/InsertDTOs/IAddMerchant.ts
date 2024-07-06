@@ -1,4 +1,5 @@
 import { Status } from '../../Enums/Status';
+import { IAddSpecialPackage } from './IAddSpecialPackage';
 
 export interface IAddMerchant {
   storeName?: string;
@@ -13,4 +14,6 @@ export interface IAddMerchant {
   status: Status;
   cityID: number;
   governorateID: number;
+  branchId: number;
+  specialPackages: IAddSpecialPackage[];
 }
