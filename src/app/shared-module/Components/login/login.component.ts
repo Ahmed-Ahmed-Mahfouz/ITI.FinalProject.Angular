@@ -38,11 +38,6 @@ export class LoginComponent {
         console.log(data);
         this.errorMessage = '';
         const decodedData = encodeURIComponent(JSON.stringify(data));
-        // document.cookie = `token=${decodedData};expires=${data.expireDate}`;
-        // this.accountService.IsLogged = true;
-        // this.accountService.Role = data.Role;
-        // this.accountService.Name = data.name;
-        // this.accountService.SetToken(data.token);
         localStorage.setItem('token',data.token);
         localStorage.setItem('role',data.Role);
         localStorage.setItem('name',data.name);

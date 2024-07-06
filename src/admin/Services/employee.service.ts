@@ -13,6 +13,7 @@ IEmployee,
   IEmployeeUpdate,
 number
 >{
+  [x: string]: any;
   constructor(httpClient: HttpClient) {
     super(httpClient);
     this.baseUrl = 'Employee';
