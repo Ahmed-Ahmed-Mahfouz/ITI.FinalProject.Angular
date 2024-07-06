@@ -11,8 +11,7 @@ import { IUpdateMerchant } from '../DTOs/UpdateDTOs/IUpdateMerchant';
 export class MerchantService extends GenericService<
   IDisplayMerchant,
   IAddMerchant,
-  IUpdateMerchant,
-  string
+  IUpdateMerchant
 > {
   constructor(httpClient: HttpClient) {
     super(httpClient);

@@ -8,7 +8,6 @@ export interface IAddMerchant {
   email: string;
   address: string;
   phoneNumber: string;
-  costPerRefusedOrder?: number;
   merchantPayingPercentageForRejectedOrders: number;
   specialPickupShippingCost?: number;
   status: Status;

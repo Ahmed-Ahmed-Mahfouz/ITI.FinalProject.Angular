@@ -11,8 +11,7 @@ import { IUpdateBranch } from '../DTOs/UpdateDTOs/IUpdateBranch';
 export class BranchService extends GenericService<
   IDisplayBranch,
   IAddBranch,
-  IUpdateBranch,
-  number
+  IUpdateBranch
 > {
   constructor(httpClient: HttpClient) {
     super(httpClient);

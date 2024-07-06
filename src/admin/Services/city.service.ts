@@ -11,8 +11,7 @@ import { IUpdateCity } from '../DTOs/UpdateDTOs/IUpdateCity';
 export class CityService extends GenericService<
   IDisplayCity,
   IAddCity,
-  IUpdateCity,
-  number
+  IUpdateCity
 > {
   constructor(httpClient: HttpClient) {
     super(httpClient);

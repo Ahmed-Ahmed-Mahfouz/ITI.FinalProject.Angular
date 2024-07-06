@@ -34,7 +34,8 @@ export class MerchantListComponent implements OnInit {
   }
 
   loadMerchants(): void {
-    this.merchantService.GetAll().subscribe(
+    const url = 'https://localhost:7057/api/Merchant';
+    this.merchantService.GetAll(url).subscribe(
       (merchants) => {
         this.data = merchants;
         this.updateTable();

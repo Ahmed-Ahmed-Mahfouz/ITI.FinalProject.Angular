@@ -74,7 +74,7 @@ export class MerchantEditComponent {
     const merchantId = this.route.snapshot.paramMap.get('id');
     if (merchantId) {
       this.merchantService
-        .GetById(merchantId)
+        .GetById('https://localhost:7057/api/Merchant/' + merchantId)
         .subscribe((merchant: IDisplayMerchant | undefined) => {
           if (this.merchantForm && merchant) {
             this.merchantForm.patchValue(merchant);
@@ -83,17 +83,25 @@ export class MerchantEditComponent {
         });
     }
 
-    this.governorateService.GetAll().subscribe((data: IGovernorate[]) => {
-      this.governorates = data;
-    });
+    const url = 'https://localhost:7057/api/';
 
-    this.cityService.GetAll().subscribe((data: IDisplayCity[]) => {
-      this.cities = data;
-    });
+    this.governorateService
+      .GetAll(url + 'Governorate')
+      .subscribe((data: IGovernorate[]) => {
+        this.governorates = data;
+      });
 
-    this.branchService.GetAll().subscribe((data: IDisplayBranch[]) => {
-      this.branches = data;
-    });
+    this.cityService
+      .GetAll(url + 'Cities')
+      .subscribe((data: IDisplayCity[]) => {
+        this.cities = data;
+      });
+
+    this.branchService
+      .GetAll(url + 'Branches')
+      .subscribe((data: IDisplayBranch[]) => {
+        this.branches = data;
+      });
   }
 
   toggleAddNewPackage() {

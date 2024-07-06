@@ -11,8 +11,7 @@ import { IGovernorateUpdate } from '../DTOs/UpdateDTOs/IGovernorateUpdate';
 export class GovernorateService extends GenericService<
   IGovernorate,
   IGovernorateInsert,
-  IGovernorateUpdate,
-  number
+  IGovernorateUpdate
 > {
   constructor(httpClient: HttpClient) {
     super(httpClient);

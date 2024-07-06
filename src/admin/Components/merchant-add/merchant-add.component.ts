@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MerchantService } from '../../Services/merchant.service';
@@ -13,19 +13,26 @@ import { GovernorateService } from '../../Services/governorate.service';
 import { IDisplayBranch } from './../../DTOs/DisplayDTOs/IDisplayBranch';
 import { IDisplayCity } from './../../DTOs/DisplayDTOs/IDisplayCity';
 import { IGovernorate } from '../../DTOs/DisplayDTOs/IGovernorate';
+import { IDisplaySpecialPackage } from '../../DTOs/DisplayDTOs/IDisplaySpecialPackage';
+import { CommonModule } from '@angular/common';
+import { IAddSpecialPackage } from '../../DTOs/InsertDTOs/IAddSpecialPackage';
 
 @Component({
   selector: 'app-merchant-add',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './merchant-add.component.html',
   styleUrls: ['./merchant-add.component.css'],
 })
 export class MerchantAddComponent implements OnInit {
   addMerchantForm: FormGroup;
+  newPackageForm: FormGroup;
   governorates: IGovernorate[] = [];
   cities: IDisplayCity[] = [];
   branches: IDisplayBranch[] = [];
+  specialPackages: IAddSpecialPackage[] = [];
+  displaySpecialPackage: IDisplaySpecialPackage[] = [];
+  addSpecialPackage = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,15 +45,23 @@ export class MerchantAddComponent implements OnInit {
     this.addMerchantForm = this.formBuilder.group({
       storeName: ['', Validators.required],
       userName: ['', Validators.required],
+      passwordHash: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       address: ['', Validators.required],
       phoneNumber: ['', Validators.required],
-      specialPickupShippingCost: [0, Validators.required],
       merchantPayingPercentageForRejectedOrders: [0, Validators.required],
+      specialPickupShippingCost: [0, Validators.required],
+      status: [1, Validators.required],
       cityID: [0, Validators.required],
       governorateID: [0, Validators.required],
-      branchId: [0, Validators.required],
-      // Add any other form controls here
+      branchID: [0, Validators.required],
+      specialPackages: [[]],
+    });
+
+    this.newPackageForm = this.formBuilder.group({
+      governorateId: [0, Validators.required],
+      cityId: [0, Validators.required],
+      shippingPrice: [0, Validators.required],
     });
   }
 
@@ -57,31 +72,90 @@ export class MerchantAddComponent implements OnInit {
   }
 
   loadGovernorates() {
-    this.governorateService
-      .GetAll()
-      .subscribe((governorates) => (this.governorates = governorates));
+    const url = 'https://localhost:7057/api/Governorate';
+    this.governorateService.GetAll(url).subscribe((governorates) => {
+      this.governorates = governorates;
+    });
   }
+
   loadCities() {
-    this.cityService.GetAll().subscribe((cities) => (this.cities = cities));
+    const url = 'https://localhost:7057/api/Cities';
+    this.cityService.GetAll(url).subscribe((cities) => {
+      this.cities = cities;
+    });
   }
+
   loadBranches() {
-    this.branchService
-      .GetAll()
-      .subscribe((branches) => (this.branches = branches));
+    const url = 'https://localhost:7057/api/Branches';
+    this.branchService.GetAll(url).subscribe((branches) => {
+      this.branches = branches;
+    });
+  }
+
+  toggleAddNewPackage() {
+    this.addSpecialPackage = !this.addSpecialPackage;
+  }
+
+  saveSpecialPackage() {
+    if (this.newPackageForm.valid) {
+      const governorateId = this.newPackageForm.value.governorateId;
+      const cityId = this.newPackageForm.value.cityId;
+
+      const newPackage: IAddSpecialPackage = {
+        governorateId,
+        cityId,
+        shippingPrice: this.newPackageForm.value.shippingPrice,
+      };
+
+      // Assuming you're adding a new package here
+      this.specialPackages.push({
+        ...newPackage,
+      });
+
+      this.displaySpecialPackage.push({
+        id: 0,
+        governorateName:
+          this.governorates.find((gov) => gov.id == governorateId)?.name ||
+          'test',
+        cityName: this.cities.find((city) => city.id == cityId)?.name || 'test',
+        shippingPrice: this.newPackageForm.value.shippingPrice,
+        merchantName: this.addMerchantForm.value.storeName || '',
+      });
+
+      // Update addMerchantForm's specialPackages value
+      this.addMerchantForm.patchValue({
+        specialPackages: this.specialPackages,
+      });
+
+      this.addSpecialPackage = false;
+    }
+  }
+
+  deleteSpecialPackage(index: number) {
+    this.displaySpecialPackage.splice(index, 1);
+    this.specialPackages.splice(index, 1);
+    this.addMerchantForm.patchValue({
+      specialPackages: this.specialPackages,
+    });
   }
 
   onSubmit() {
     if (this.addMerchantForm.valid) {
-      this.merchantService.Add(this.addMerchantForm.value).subscribe(
-        () => {
-          alert('Merchant added successfully');
-          this.router.navigate(['/merchants']);
-        },
-        (error) => {
-          alert('An error occurred while adding the merchant');
-          console.error(error);
-        }
-      );
+      console.log(this.addMerchantForm.value);
+      this.merchantService
+        .Add('https://localhost:7057/api/Merchant', this.addMerchantForm.value)
+        .subscribe(
+          () => {
+            alert('Merchant added successfully');
+            this.router.navigate(['/Admin']);
+          },
+          (error) => {
+            alert('An error occurred while adding the merchant');
+            console.error(error);
+          }
+        );
+    } else {
+      console.error('Form invalid:', this.addMerchantForm);
     }
   }
 }
