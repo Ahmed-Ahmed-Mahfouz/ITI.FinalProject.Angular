@@ -1,4 +1,4 @@
-import { AddRepresentative } from '../DTOs/InsertDTOs/addRepresentative';
+import { AddRepresentative } from '../DTOs/InsertDTOs/IRepresentativeInsert';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 

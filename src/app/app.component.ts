@@ -5,7 +5,7 @@ import { OrderReportComponent } from './shared-module/Components/order-report/or
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, OrderReportComponent],
+  imports: [RouterOutlet, OrderReportComponent,RouterLink],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
