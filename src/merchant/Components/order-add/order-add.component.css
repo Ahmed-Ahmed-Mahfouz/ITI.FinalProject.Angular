@@ -66,8 +66,8 @@ button {
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  width: 10%;
-  margin-top: 10px;
+  width: 15%;
+
   text-align: center;
 }
 
@@ -123,7 +123,6 @@ button:hover {
 .product-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: auto;
 }
 
 .product-table th,
@@ -145,6 +144,44 @@ button:hover {
 
 .product-table tbody tr:last-child {
   border-bottom: none;
+}
+
+.product-table td input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.product-table td button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.product-table td button:hover {
+  background-color: #a71d2a;
+}
+
+.add-new-btn {
+  background-color: #00c1cf;
+  width: 13%;
+  transition: all 0.3s ease;
+}
+
+.add-new-btn:hover {
+  background-color: #004045;
+  color: #eee;
+}
+
+.add-txt {
+  text-align: center;
 }
 
 .settings {

@@ -10,7 +10,6 @@ export interface IDisplayMerchant {
   email: string;
   address: string;
   phoneNumber: string;
-  costPerRefusedOrder?: number;
   branchName: string;
   cityName: string;
   governorateName: string;

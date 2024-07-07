@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPaginationDTO } from '../DTOs/DisplayDTOs/IPaginationDTO';
+import { IPaginationDTO } from '../DTOs/Display DTOs/IPaginationDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class GenericService<
     //   'Access-Control-Allow-Origin': '*',
     // });
     this.headers = new HttpHeaders({
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiZDA0ZDQ1MGEtZTAwNC00YmRiLWI0MTctNDM0NTAyNjcxOTk4IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluIiwiRXhwaXJlRGF0ZSI6Ik1vbmRheSwgSnVseSA4LCAyMDI0IDM6NDQgQU0iLCJVc2VyVHlwZSI6IkFkbWluIiwiZXhwIjoxNzIwMzk5NDkzfQ.XDsM_qHoEkjlcbOaf571ngdaUvtitj2cuYQ7P0BDY0k`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiZTVlMDQwYjAtMWRmMy00ZDRkLTg4ZmItNDNiYmJhMjVmNTgwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluIiwiRXhwaXJlRGF0ZSI6IlN1bmRheSwgSnVseSA3LCAyMDI0IDExOjAyIFBNIiwiVXNlclR5cGUiOiJBZG1pbiIsImV4cCI6MTcyMDM4MjUzNn0.pt_LeZ-h5lU0U_Yp2Hiep_Fy3Eiko-CisoDFOCsm2WI`,
       'Access-Control-Allow-Origin': '*',
     });
   }
