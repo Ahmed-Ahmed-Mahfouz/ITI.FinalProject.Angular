@@ -1,3 +1,4 @@
+import { IDisplayCity } from './../../../merchant/DTOs/Display DTOs/IDisplayCity';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MerchantService } from '../../Services/merchant.service';
@@ -15,11 +16,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { IDisplaySpecialPackage } from '../../DTOs/DisplayDTOs/IDisplaySpecialPackage';
 import { IGovernorate } from '../../DTOs/DisplayDTOs/IGovernorate';
-import { IDisplayCity } from '../../DTOs/DisplayDTOs/IDisplayCity';
-import { IDisplayBranch } from '../../DTOs/DisplayDTOs/IDisplayBranch';
 import { IUpdateSpecialPackage } from '../../DTOs/UpdateDTOs/IUpdateSpecialPackage';
 import { IUpdateMerchant } from '../../DTOs/UpdateDTOs/IUpdateMerchant';
 import { Status } from '../../Enums/Status';
+import { IDisplayBranch } from '../../../merchant/DTOs/Display DTOs/IDisplayBranch';
 
 @Component({
   selector: 'app-merchant-edit',
@@ -74,7 +74,7 @@ export class MerchantEditComponent {
     const merchantId = this.route.snapshot.paramMap.get('id');
     if (merchantId) {
       this.merchantService
-        .GetById('https://localhost:7057/api/Merchant/' + merchantId)
+        .GetById('https://localhost:5241/api/Merchant/' + merchantId)
         .subscribe((merchant: IDisplayMerchant | undefined) => {
           if (this.merchantForm && merchant) {
             this.merchantForm.patchValue(merchant);
@@ -83,7 +83,7 @@ export class MerchantEditComponent {
         });
     }
 
-    const url = 'https://localhost:7057/api/';
+    const url = 'https://localhost:5241/api/';
 
     this.governorateService
       .GetAll(url + 'Governorate')

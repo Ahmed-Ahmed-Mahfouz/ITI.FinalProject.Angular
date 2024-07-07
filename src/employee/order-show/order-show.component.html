@@ -1,0 +1,57 @@
+<div class="table-container">
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Date</th>
+        <th>Client Data</th>
+        <th>Governorate</th>
+        <th>City</th>
+        <th>orderMoneyReceived</th>
+        <th>Status</th>
+        <th>Settings</th>
+        <th>Delete</th>
+        <th>Print</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders; let i= index">
+        <td>{{order.id}}</td>
+        <td>
+          <div class="name-role">
+            <span class="name">{{order.date}}</span>
+          </div>
+        </td>
+        <td>
+          <h4>{{order.clientName}}</h4>
+          <h4>{{order.phone}}</h4>
+        </td>
+        <td>{{order.governorateName}}</td>
+        <td>{{order.cityName}}</td>
+        <td>{{order.orderMoneyReceived}}</td>
+        <!-- <td>{{representative.userAddress}}</td> -->
+        <!-- <td>{{representative.discountType}}</td> -->
+        <td> </td>
+        <td><span class="badge active">{{order.status}}</span></td>
+        <td>
+          <div class="settings">
+            <a [href]="'/admin/representative/edit/'" class="setting">
+              <i class="bi bi-pencil"></i>
+            </a>
+          </div>
+        </td>
+        <td>
+          <a  class="setting" >
+            <i class="bi bi-trash3 text-danger px-1"></i>
+          </a>
+        </td>
+        <td>
+          <a  class="setting" >
+            <i class="bi bi-printer text-primary px-1"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

@@ -10,19 +10,19 @@ import { MerchantService } from '../../Services/merchant.service';
 import { CityService } from '../../Services/city.service';
 import { BranchService } from '../../Services/branch.service';
 import { GovernorateService } from '../../Services/governorate.service';
-import { IDisplayBranch } from './../../DTOs/DisplayDTOs/IDisplayBranch';
-import { IDisplayCity } from './../../DTOs/DisplayDTOs/IDisplayCity';
 import { IGovernorate } from '../../DTOs/DisplayDTOs/IGovernorate';
 import { IDisplaySpecialPackage } from '../../DTOs/DisplayDTOs/IDisplaySpecialPackage';
 import { CommonModule } from '@angular/common';
 import { IAddSpecialPackage } from '../../DTOs/InsertDTOs/IAddSpecialPackage';
+import { IDisplayCity } from '../../../merchant/DTOs/Display DTOs/IDisplayCity';
+import { IDisplayBranch } from '../../../merchant/DTOs/Display DTOs/IDisplayBranch';
 
 @Component({
   selector: 'app-merchant-add',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './merchant-add.component.html',
-  styleUrls: ['./merchant-add.component.css'],
+  styleUrl: './merchant-add.component.css'
 })
 export class MerchantAddComponent implements OnInit {
   addMerchantForm: FormGroup;
@@ -72,21 +72,21 @@ export class MerchantAddComponent implements OnInit {
   }
 
   loadGovernorates() {
-    const url = 'https://localhost:7057/api/Governorate';
+    const url = 'https://localhost:5241/api/Governorate';
     this.governorateService.GetAll(url).subscribe((governorates) => {
       this.governorates = governorates;
     });
   }
 
   loadCities() {
-    const url = 'https://localhost:7057/api/Cities';
+    const url = 'https://localhost:5241/api/Cities';
     this.cityService.GetAll(url).subscribe((cities) => {
       this.cities = cities;
     });
   }
 
   loadBranches() {
-    const url = 'https://localhost:7057/api/Branches';
+    const url = 'https://localhost:5241/api/Branches';
     this.branchService.GetAll(url).subscribe((branches) => {
       this.branches = branches;
     });
@@ -143,7 +143,7 @@ export class MerchantAddComponent implements OnInit {
     if (this.addMerchantForm.valid) {
       console.log(this.addMerchantForm.value);
       this.merchantService
-        .Add('https://localhost:7057/api/Merchant', this.addMerchantForm.value)
+        .Add('https://localhost:5241/api/Merchant', this.addMerchantForm.value)
         .subscribe(
           () => {
             alert('Merchant added successfully');

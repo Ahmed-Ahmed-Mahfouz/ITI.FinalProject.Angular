@@ -72,7 +72,7 @@ export class OrderAddComponent implements OnInit {
   }
 
   loadDropdownData() {
-    const url = 'https://localhost:7057/api/';
+    const url = 'http://localhost:5241/api/';
     this.cityService
       .GetAll(url + 'Cities')
       .subscribe((data) => (this.cities = data));
@@ -148,7 +148,7 @@ export class OrderAddComponent implements OnInit {
       // Assuming there's a method in the ProductService to save a product
       // This is a hypothetical example, adjust according to your actual ProductService
       const productData = this.products.at(this.products.length - 1).value; // Get the last product added
-      const url = 'https://localhost:7057/api/Products';
+      const url = 'http://localhost:5241/api/Products';
       this.productService.Add(url, productData).subscribe({
         next: (response) => {
           console.log('Product saved successfully', response);
@@ -189,11 +189,11 @@ export class OrderAddComponent implements OnInit {
           quantity: +product.quantity,
           price: +product.price,
         })),
-        merchantId: '82f50007-000f-401f-8482-03640c84090a',
-        RepresentativeId: '424fc52f-0029-45bd-b372-f35ac511438d',
+        merchantId: '1f4e64c0-3b12-49d2-bd29-2ba9ac31eaa5',
+        RepresentativeId: '058944e8-9e9b-46d8-b53c-c0940a1ed1f8',
       };
       console.log(orderData);
-      const url = 'https://localhost:7057/api/Orders';
+      const url = 'http://localhost:5241/api/Orders';
       this.orderService.Add(url, orderData).subscribe(
         (response) => {
           console.log('Order and products added successfully', response);

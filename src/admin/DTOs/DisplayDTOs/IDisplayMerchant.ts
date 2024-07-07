@@ -1,5 +1,5 @@
 import { IDisplaySpecialPackage } from './IDisplaySpecialPackage';
-import { IDisplayOrder } from './IDisplayOrder';
+import { IDisplayOrder } from './IOrder';
 import { Status } from '../../Enums/Status';
 
 export interface IDisplayMerchant {

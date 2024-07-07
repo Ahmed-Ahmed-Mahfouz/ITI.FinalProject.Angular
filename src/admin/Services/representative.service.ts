@@ -1,4 +1,4 @@
-import { AddRepresentative } from '../DTOs/InsertDTOs/addRepresentative';
+import { AddRepresentative } from '../DTOs/InsertDTOs/IRepresentativeInsert';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RepresentativeService {
 
-  baseURL:string="https://localhost:7057/api/Representative/";
+  baseURL:string="https://localhost:5241/api/Representative/";
   constructor(public httpClient:HttpClient) { }
 
   addRepresentative(representative:AddRepresentative){

@@ -1,6 +1,6 @@
 
-<h1 class=" text-center my-5">Add Branch</h1>
-  <form [formGroup]="branch" class=" d-flex flex-row flex-wrap " >
+<h1 class=" text-start my-5">{{(branchId)?"Edit Branch":"Add Branch"}}</h1>
+  <form [formGroup]="branchForm" class=" d-flex flex-row flex-wrap " >
     <div class="row  w-100">
       <div class="col-4 mb-3  d-flex flex-column">
         <label for="name" class="form-label">Name</label>
@@ -33,7 +33,7 @@
 
       </div>
     </div>
-    <div class="row w-100 ">
+    <!-- <div class="row w-100 ">
       <div class="col-4 mb-3  d-flex flex-column">
         <label for="exampleInputPassword1" class="form-label">addingDate</label>
          <input type="datetime-local" class="" id="exampleInputPassword1" formControlName="addingDate">
@@ -41,9 +41,9 @@
            Invalid Password
          </label>
      </div>
-    </div>
+    </div> -->
     <div class="row ">
-      <button (click)="onSubmit()" [disabled]="!branch.valid" class="btn btn-primary ms-2">Submit</button>
+      <button (click)="onSubmit()" [disabled]="!branchForm.valid" class="btn btn-primary ms-2">Submit</button>
     </div>
 
   </form>
