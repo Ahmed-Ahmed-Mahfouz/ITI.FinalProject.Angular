@@ -1,3 +1,4 @@
+
 <div class="table-container">
   <table class="product-table">
     <thead>
@@ -23,14 +24,17 @@
         <td><span class="badge active">{{StatusName(branch.status)}}</span></td>
         <td>
           <div class="settings">
-            <a [href]="'/admin/branch/edit/'+branch.id" class="setting">
+            <a [routerLink]="['/admin/branch/edit/',branch.id]" class="setting">
               <i class="bi bi-pencil"></i>
             </a>
-            <a  class="setting" (click)="deleteBranch(branch.id)">
-              <i class="bi bi-trash3 text-danger px-1"></i>
+            <a  class="setting">
+              <i class="bi bi-trash3 text-danger px-1" (click)="deleteBranch(branch.id)"></i>
             </a>
+
           </div>
+
       </tr>
     </tbody>
   </table>
 </div>
+<a class="btn btn-success ms-5" [routerLink]='["/admin/branch/add"]'>Add Branch</a>

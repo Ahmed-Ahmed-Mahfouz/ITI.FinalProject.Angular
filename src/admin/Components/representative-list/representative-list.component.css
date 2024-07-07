@@ -167,3 +167,6 @@
     content: "Settings";
   }
 }
+table{
+  text-wrap: wrap;
+}

@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
 import { ICity } from '../../DTOs/DisplayDTOs/ICity';
 import { ICityInsert } from '../../DTOs/InsertDTOs/ICityInsert';
 import { ICityUpdate } from '../../DTOs/UpdateDTOs/ICityUpdate';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-branch-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './branch-list.component.html',
   styleUrl: './branch-list.component.css'
 })
@@ -24,16 +25,15 @@ export class BranchListComponent implements OnInit {
   cities:ICity[]=[]
 
   constructor(
-    public branchServ:GenericService<IBranch,IBranchInsert,IBranchUpdate,number>,
-    public cityServ: GenericService<ICity, ICityInsert, ICityUpdate, number>,
+    public branchServ:GenericService<IBranch,IBranchInsert,IBranchUpdate>,
+    public cityServ: GenericService<ICity, ICityInsert, ICityUpdate>,
   ) {
   }
 
   ngOnInit(): void {
 
     //get branches
-    this.branchServ.baseUrl="branches"
-    this.branchServ.GetAll().subscribe({
+    this.branchServ.GetAll("http://localhost:5241/api/branches").subscribe({
       next:(value)=> {
         this.branches=value;
 
@@ -42,8 +42,7 @@ export class BranchListComponent implements OnInit {
     })
 
     //get cities
-    this.cityServ.baseUrl = "Cities";
-    this.cityServ.GetAll().subscribe({
+    this.cityServ.GetAll("http://localhost:5241/api/Cities").subscribe({
       next: (value) => {
         console.log(value);
 
@@ -64,10 +63,10 @@ export class BranchListComponent implements OnInit {
   }
 
   deleteBranch(id:number){
-    this.branchServ.baseUrl="branches"
-    this.branchServ.Delete(id).subscribe({
-      next:(value)=>{
-        console.log(value);
+    this.branchServ.Delete("http://localhost:5241/api/Branches?id="+id).subscribe({
+      next:()=>{
+        this.branches=this.branches.filter(b=>b.id!= id);
+        console.log(this.branches);
 
       },
       error:(err)=>{

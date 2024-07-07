@@ -23,8 +23,12 @@
           </div>
         </td>
         <!-- <td>{{representative.email}}</td> -->
-        <td>{{representative.userBranchId}}</td>
-        <td>{{representative.governorateIds}}</td>
+        <td>{{getBranchName(representative.userBranchId)}}</td>
+        <td>
+          @for (item of getGovNames(representative.governorateIds); track $index) {
+          <h6>{{item}}</h6>
+          }
+        </td>
         <td>{{representative.userPhoneNo}}</td>
         <!-- <td>{{representative.userAddress}}</td> -->
         <!-- <td>{{representative.discountType}}</td> -->
@@ -43,3 +47,4 @@
     </tbody>
   </table>
 </div>
+<a class="btn btn-success ms-5" [routerLink]="['/admin/representative/add']">Add Representative</a>

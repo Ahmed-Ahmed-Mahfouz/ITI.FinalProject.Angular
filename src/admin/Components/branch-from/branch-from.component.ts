@@ -28,8 +28,8 @@ export class BranchFromComponent implements OnInit {
     public route: ActivatedRoute,
     public routing:Router,
     // public branchServ: BranchService,
-    public branchServ:GenericService<IBranch,IBranchInsert,IBranchUpdate,number>,
-    public cityServ: GenericService<ICity, ICityInsert, ICityUpdate, number>
+    public branchServ:GenericService<IBranch,IBranchInsert,IBranchUpdate>,
+    public cityServ: GenericService<ICity, ICityInsert, ICityUpdate>
   ) {
     // branchServ.baseUrl="Branches"
     // cityServ.baseUrl = "Cities"
@@ -65,8 +65,7 @@ export class BranchFromComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.cityServ.baseUrl = "Cities";
-    this.cityServ.GetAll().subscribe({
+    this.cityServ.GetAll("http://localhost:5241/api/Cities").subscribe({
       next: (value) => {
         console.log(value);
 
@@ -85,8 +84,7 @@ export class BranchFromComponent implements OnInit {
 
         // edit branch
         if (this.branchId) {
-          this.branchServ.baseUrl="branches"
-          this.branchServ.GetById(this.branchId).subscribe({
+          this.branchServ.GetById("http://localhost:5241/api/branches/"+this.branchId).subscribe({
             next: (value) => {
               this.branch = value;
               // console.log(this.branch);
@@ -98,7 +96,7 @@ export class BranchFromComponent implements OnInit {
 
             },
             error: (err) => {
-              console.log(err.Message);
+              console.log(err);
 
             },
           })
@@ -118,8 +116,7 @@ export class BranchFromComponent implements OnInit {
     this.branch = this.branchForm.value
 
     if (this.branchId) {
-      this.branchServ.baseUrl="branches";
-      this.branchServ.Edit(this.branchId, this.branch).subscribe({
+      this.branchServ.Edit("http://localhost:5241/api/branches/"+this.branchId, this.branch).subscribe({
         next: (value) => {
           // console.log(value);
         },
@@ -135,8 +132,7 @@ export class BranchFromComponent implements OnInit {
         status: this.getStatus.value,
         cityId: this.getCity.value,
       }
-      this.branchServ.baseUrl="branches";
-      this.branchServ.Add(newBranch).subscribe({
+      this.branchServ.Add("http://localhost:5241/api/branches",newBranch).subscribe({
         next: (value) => {
           console.log(value);
 

@@ -9,11 +9,12 @@ import { Status } from '../../Enums/Status';
 import { IRepresentative } from '../../DTOs/DisplayDTOs/IRepresentative';
 import { IRepresentativeInsert } from '../../DTOs/InsertDTOs/IRepresentativeInsert';
 import { IRepresentativeUpdate } from '../../DTOs/UpdateDTOs/IRepresentativeUpdate';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-representative-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './representative-list.component.html',
   styleUrl: './representative-list.component.css'
 })
@@ -25,9 +26,9 @@ export class RepresentativeListComponent {
   // cities:ICity[]=[]
 
   constructor(
-    public branchServ:GenericService<IBranch,IBranchInsert,IBranchUpdate,number>,
-    public governorateServ:GenericService<IGovernorate,IBranchInsert,IBranchUpdate,number>,
-    public representativeServ:GenericService<IRepresentative,IRepresentativeInsert,IRepresentativeUpdate,string>
+    public branchServ:GenericService<IBranch,IBranchInsert,IBranchUpdate>,
+    public governorateServ:GenericService<IGovernorate,IBranchInsert,IBranchUpdate>,
+    public representativeServ:GenericService<IRepresentative,IRepresentativeInsert,IRepresentativeUpdate>
 
   ) {
   }
@@ -35,8 +36,7 @@ export class RepresentativeListComponent {
   ngOnInit(): void {
 
     //get branches
-    this.branchServ.baseUrl="branches"
-    this.branchServ.GetAll().subscribe({
+    this.branchServ.GetAll("http://localhost:5241/api/branches").subscribe({
       next:(value)=> {
         this.branches=value;
 
@@ -45,8 +45,7 @@ export class RepresentativeListComponent {
     })
 
     //get governorate
-    this.governorateServ.baseUrl="governorate"
-    this.governorateServ.GetAll().subscribe({
+    this.governorateServ.GetAll("http://localhost:5241/api/governorate").subscribe({
       next:(value)=> {
         this.governorates=value
 
@@ -54,10 +53,13 @@ export class RepresentativeListComponent {
     })
 
     //get representative
-    this.representativeServ.baseUrl="representative"
-    this.representativeServ.GetAll().subscribe({
+    this.representativeServ.GetAll("http://localhost:5241/api/representative").subscribe({
       next:(value)=> {
         this.representatives=value
+
+      },
+      error:(err)=> {
+        console.log(err);
 
       },
     })
@@ -69,10 +71,10 @@ export class RepresentativeListComponent {
 
 
   deleteRepresentative(id:string){
-    this.representativeServ.baseUrl="representative"
-    this.representativeServ.Delete(id).subscribe({
+    this.representativeServ.Delete("http://localhost:5241/api/representative/"+id).subscribe({
       next:(value)=>{
         console.log(value);
+        this.representatives=this.representatives.filter(r=>r.id!=id);
 
       },
       error:(err)=>{
@@ -80,5 +82,18 @@ export class RepresentativeListComponent {
 
       },
     })
+  }
+
+  getBranchName(id:number)
+  {
+    return this.branches.find(b=> b.id==id)?.name
+  }
+  getGovNames(govIds:number[]){
+    let govNames:any[]=[]
+    govIds.forEach(id => {
+      govNames.push(this.governorates.find(g=>g.id==id)?.name)
+    });
+    return govNames;
+
   }
 }
