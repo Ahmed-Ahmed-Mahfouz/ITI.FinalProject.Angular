@@ -1,52 +1,68 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EmployeeService } from './../../Services/employee.service';
-import { Status } from '../../Enums/Status';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { EmployeeService } from '../../Services/employee.service';
 import { CommonModule } from '@angular/common';
-import { IEmployeeInsert } from '../../DTOs/InsertDTOs/IEmployeeInsert';
+import { BranchService } from '../../Services/branch.service';
+import { IDisplayBranch} from '../../DTOs/DisplayDTOs/IDisplayBranch'
+
+
 
 @Component({
   selector: 'app-employee-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './employee-add.component.html',
-  styleUrls: ['./employee-add.component.css']
+  styleUrls: ['./employee-add.component.css'],
 })
 export class EmployeeAddComponent implements OnInit {
-  employeeForm: FormGroup;
-  statusOptions = Object.keys(Status);
-  successAlert = false;
+  addEmployeeForm: FormGroup;
+  branches: IDisplayBranch[] = [];
 
   constructor(
+    private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
-    private formBuilder: FormBuilder
+    private branchService: BranchService,
+    private router: Router
   ) {
-    this.employeeForm = this.formBuilder.group({
-      fullName: [''],
-      address: [''],
-      PhoneNumber: [''],
-      email: [''],
-      branch: [''],
-      role: [''],
-      status: [Status.Inactive],
+    this.addEmployeeForm = this.formBuilder.group({
+      fullName: ['', Validators.required],
+      userName: ['', Validators.required],
+      passwordHash: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
+      branch: ['', Validators.required],
+      role: ['', Validators.required],
+      status: ['', Validators.required],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadBranches();
+  }
+
+
+  loadBranches(){
+    const url = 'https://localhost:7057/api/Branches';
+    this.BranchService.GetAll(url).subscribe({next : (branches) =>{this.branches=branches;}})
+  }
 
   onSubmit() {
-    if (this.employeeForm.valid) {
-      const newEmployee: IEmployeeInsert = this.employeeForm.value;
-      this.employeeService.Add(`https://localhost:7057/api/Employees`,newEmployee).subscribe({
-        next:() => {
-          this.successAlert = true;
-          setTimeout(() => this.successAlert = false, 3000);
-          this.employeeForm.reset();
+    if (this.addEmployeeForm.valid) {
+      console.log(this.addEmployeeForm.value);
+      this.employeeService.Add('https://localhost:7057/api/Employee', this.addEmployeeForm.value).subscribe(
+        () => {
+          alert('Employee added successfully');
+          this.router.navigate(['/Admin']);
         },
-        error:(error: any) => {
-          console.error('Error:', error);
-        }}
+        (error) => {
+          alert('An error occurred while adding the employee');
+          console.error(error);
+        }
       );
+    } else {
+      console.error('Form invalid:', this.addEmployeeForm);
     }
   }
 }
