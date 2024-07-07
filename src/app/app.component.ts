@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { OrderReportComponent } from './shared-module/Components/order-report/order-report.component';
 
 @Component({
@@ -32,8 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log(this.currentUrl);
       }
     });
-
-    
     // this.currentUrl = this.router.url;
     // console.log(this.currentUrl);
 

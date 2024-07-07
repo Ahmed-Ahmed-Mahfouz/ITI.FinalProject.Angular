@@ -45,21 +45,21 @@ export class EmployeeAddComponent implements OnInit {
 
   loadBranches(){
     const url = 'https://localhost:7057/api/Branches';
-    this.BranchService.GetAll(url).subscribe({next : (branches) =>{this.branches=branches;}})
+    this.branchService.GetAll(url).subscribe({next : (branches) =>{this.branches=branches;}})
   }
 
   onSubmit() {
     if (this.addEmployeeForm.valid) {
       console.log(this.addEmployeeForm.value);
       this.employeeService.Add('https://localhost:7057/api/Employee', this.addEmployeeForm.value).subscribe(
-        () => {
+        {next:() => {
           alert('Employee added successfully');
           this.router.navigate(['/Admin']);
         },
-        (error) => {
+        error:(error) => {
           alert('An error occurred while adding the employee');
           console.error(error);
-        }
+        }}
       );
     } else {
       console.error('Form invalid:', this.addEmployeeForm);
