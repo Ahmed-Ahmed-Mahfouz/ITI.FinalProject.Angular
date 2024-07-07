@@ -41,7 +41,7 @@
         <td>{{ row.branchName }}</td>
         <td>
           <span class="badge"
-            [ngClass]="{'active': getStatusText(row.status) === 'Active', 'inActive': getStatusText(row.status) === 'Inactive'}">
+            [ngClass]="{'active': getStatusText(row.status) === 'Active', 'InActive': getStatusText(row.status) === 'InActive'}">
             {{ getStatusText(row.status) }}
           </span>
         </td>
