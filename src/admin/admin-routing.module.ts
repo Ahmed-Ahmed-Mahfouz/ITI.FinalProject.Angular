@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'representative/edit/:id', component: RepresentativeFormComponent },
   { path: 'merchant', component: MerchantListComponent },
   { path: 'merchant/add', component: MerchantAddComponent },
-  { path: 'merchant/edit/id', component: MerchantEditComponent },
+  { path: 'merchant/edit/:id', component: MerchantEditComponent },
   { path: 'branch', component: BranchListComponent },
   { path: 'branch/add', component: BranchFromComponent },
   { path: 'branch/edit/:id', component: BranchFromComponent },
