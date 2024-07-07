@@ -260,3 +260,7 @@
     content: "Settings";
   }
 }
+
+* {
+  box-sizing: border-box;
+}
