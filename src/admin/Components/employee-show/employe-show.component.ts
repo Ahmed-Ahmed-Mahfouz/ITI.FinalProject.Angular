@@ -34,14 +34,14 @@ export class EmployeshowComponent implements OnInit {
   }
 
   loadEmployees(): void {
-    this.employeeService.GetAll().subscribe(
-      (employees: IEmployee[]) => {
+    this.employeeService.GetAll(`https://localhost:7057/api/Employees`).subscribe(
+      {next:(employees: IEmployee[]) => {
         this.data = employees;
         this.updateTable();
       },
-      (error: any) => {
+      error:(error: any) => {
         console.error('Error:', error);
-      }
+      }}
     );
   }
 

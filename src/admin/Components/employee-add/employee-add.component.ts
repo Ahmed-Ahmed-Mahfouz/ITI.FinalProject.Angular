@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeService } from './../../Services/employee.service';
-import { IEmployeeCreate } from '../../DTOs/CreateDTOs/IEmployeeCreate';
 import { Status } from '../../Enums/Status';
 import { CommonModule } from '@angular/common';
+import { IEmployeeInsert } from '../../DTOs/InsertDTOs/IEmployeeInsert';
 
 @Component({
   selector: 'app-employee-add',
@@ -36,16 +36,16 @@ export class EmployeeAddComponent implements OnInit {
 
   onSubmit() {
     if (this.employeeForm.valid) {
-      const newEmployee: IEmployeeCreate = this.employeeForm.value;
-      this.employeeService.addEmployee(newEmployee).subscribe(
-        () => {
+      const newEmployee: IEmployeeInsert = this.employeeForm.value;
+      this.employeeService.Add(`https://localhost:7057/api/Employees`,newEmployee).subscribe({
+        next:() => {
           this.successAlert = true;
           setTimeout(() => this.successAlert = false, 3000);
           this.employeeForm.reset();
         },
-        (error: any) => {
+        error:(error: any) => {
           console.error('Error:', error);
-        }
+        }}
       );
     }
   }

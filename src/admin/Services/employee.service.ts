@@ -10,8 +10,8 @@ import { IEmployeeUpdate } from '../DTOs/UpdateDTOs/IEmployeeUpdate';
 export class EmployeeService extends GenericService<
 IEmployee,
   IEmployeeInsert,
-  IEmployeeUpdate,
-number
+  IEmployeeUpdate
+
 >{
   [x: string]: any;
   constructor(httpClient: HttpClient) {

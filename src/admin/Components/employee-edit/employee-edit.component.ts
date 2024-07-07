@@ -43,7 +43,7 @@ export class EmployeeEditComponent implements OnInit {
     const employeeId = this.route.snapshot.paramMap.get('id');
     if (employeeId) {
       this.employeeService
-        .GetById(+employeeId)
+        .GetById(employeeId)
         .subscribe((employee: IEmployee | undefined) => {
           if (this.employeeForm && employee) {
             console.log(employee);
@@ -53,17 +53,17 @@ export class EmployeeEditComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(id : number) {
     if (this.employeeForm.valid) {
       const updatedEmployee: IEmployeeUpdate = this.employeeForm.value;
-      this.employeeService[updateEmployee](updatedEmployee).subscribe(
-        () => {
+      this.employeeService.Edit(`http://localhost:5241/api/Employees/${id}`,updatedEmployee).subscribe({
+        next:() => {
           this.successAlert = true;
           setTimeout(() => this.successAlert = false, 3000);
         },
-        (error: any) => {
+       error: (error: any) => {
           console.error('Error:', error);
-        }
+        }}
       );
     }
   }

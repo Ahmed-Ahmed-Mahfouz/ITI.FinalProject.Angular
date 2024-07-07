@@ -11,8 +11,8 @@ export interface IAccount {
   }
   
   export interface LoginCredentials {
-    EmailOrUserName: string;
-    Password: string;
+    emailOrUserName: string;
+    password: string;
   }
   
   export interface LoginResponse {
