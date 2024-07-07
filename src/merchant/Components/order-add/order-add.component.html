@@ -1,0 +1,119 @@
+<div class="form-container">
+  <h2>Add Order</h2>
+  <form action="#" method="post">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="type">Type</label>
+        <select id="type" name="type" required>
+          <option value="" disabled selected>Select Order Type</option>
+          <!-- Add your Order Types here -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="name">Client name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="phone2">Phone 2</label>
+        <input type="text" id="phone2" name="phone2" required>
+      </div>
+      <div class="form-group">
+        <label for="governorate">Governorate</label>
+        <select id="governorate" name="governorate" required>
+          <option value="" disabled selected>Select Governorate</option>
+          <!-- Add your governorates here -->
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="city">City</label>
+        <select id="city" name="city" required>
+          <option value="" disabled selected>Select City</option>
+          <!-- Add your cities here -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="village">Village and Street</label>
+        <input type="text" id="village" name="village" required>
+      </div>
+      <div class="form-group">
+        <label class="switch d-flex flex-column gap-3 align-items-center">Delivery to a village?
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="shipping">Shipping type</label>
+        <select id="shipping" name="shipping" required>
+          <option value="" disabled selected>Select Shipping Type</option>
+          <!-- Add your shipping types here -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="payment">Payment type</label>
+        <select id="payment" name="payment" required>
+          <option value="" disabled selected>Select Payment Type</option>
+          <!-- Add your payment types here -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="branch">Branch</label>
+        <select id="branch" name="branch" required>
+          <option value="" disabled selected>Select Branch</option>
+          <!-- Add your branches here -->
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group add-txt">
+        <button type="button" class="add-new-btn">Add
+          Product <i class="bi bi-plus-lg"></i>
+        </button>
+      </div>
+    </div>
+    <div class="table-container">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Weight (KG)</th>
+            <th>Quantity</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Iphone 15 Pro Max</td>
+            <td>55000 L.E</td>
+            <td>0.5</td>
+            <td>3</td>
+            <td class="settings">
+              <div class="trash-settings">
+                <a href="#" class="setting">
+                  <i class="bi bi-trash"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-row save-button-container">
+      <button type="submit" class="save-btn">Save</button>
+    </div>
+  </form>
+</div>

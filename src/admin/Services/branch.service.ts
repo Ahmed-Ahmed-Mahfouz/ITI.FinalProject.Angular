@@ -4,32 +4,26 @@ import { IBranchInsert } from '../DTOs/InsertDTOs/IBranchInsert';
 import { IBranchUpdate } from '../DTOs/UpdateDTOs/IBranchUpdate';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BranchService {
+  baseURL: string = 'https://localhost:7057/api/Branches/';
+  constructor(public httpClient: HttpClient) {}
 
-
-  baseURL:string="http://localhost:5241/api/Branches";
-  headers = new HttpHeaders({
-    'Authorization': `Bearer ${localStorage.getItem("Token")}`,
-    'Access-Control-Allow-Origin': '*'
-  });
-  constructor(public httpClient:HttpClient) { }
-
-  Add(branch:IBranchInsert){
-    return this.httpClient.post(this.baseURL,branch,{headers:this.headers});
+  AddBranch(branch: AddBranch) {
+    return this.httpClient.post(this.baseURL, branch);
   }
-  GetAll(){
-    return this.httpClient.get(this.baseURL,{headers:this.headers});
+  getAllBranches() {
+    return this.httpClient.get(this.baseURL);
   }
-  GetById(id:number){
-    return this.httpClient.get(this.baseURL+'/'+id,{headers:this.headers});
+  getBranch(id: number) {
+    return this.httpClient.get(this.baseURL + id);
   }
-  Edit(id:number,branch:IBranchUpdate){
-    return this.httpClient.put(this.baseURL+'/'+id,branch,{headers:this.headers});
+  editBranch(id: number, branch: AddBranch) {
+    return this.httpClient.put(this.baseURL + id, branch);
   }
-  Delete(id:number){
-    return this.httpClient.delete(this.baseURL+'/'+id);
+  deleteBranch(id: number) {
+    return this.httpClient.delete(this.baseURL + id);
   }
 
 }
