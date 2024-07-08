@@ -1,4 +1,4 @@
-import { IDisplayCity } from './../../../merchant/DTOs/Display DTOs/IDisplayCity';
+import { ICity } from '../../DTOs/DisplayDTOs/ICity';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MerchantService } from '../../Services/merchant.service';
@@ -17,9 +17,8 @@ import { CommonModule } from '@angular/common';
 import { IDisplaySpecialPackage } from '../../DTOs/DisplayDTOs/IDisplaySpecialPackage';
 import { IGovernorate } from '../../DTOs/DisplayDTOs/IGovernorate';
 import { IUpdateSpecialPackage } from '../../DTOs/UpdateDTOs/IUpdateSpecialPackage';
-import { IUpdateMerchant } from '../../DTOs/UpdateDTOs/IUpdateMerchant';
 import { Status } from '../../Enums/Status';
-import { IDisplayBranch } from '../../../merchant/DTOs/Display DTOs/IDisplayBranch';
+import { IBranch } from '../../DTOs/DisplayDTOs/IBranch';
 
 @Component({
   selector: 'app-merchant-edit',
@@ -37,8 +36,13 @@ export class MerchantEditComponent {
   deleteAlert = false;
 
   governorates: IGovernorate[] = [];
-  cities: IDisplayCity[] = [];
-  branches: IDisplayBranch[] = [];
+  cities: ICity[] = [];
+  branches: IBranch[] = [];
+
+  statusOptions = [
+    { label: 'Inactive', value: Status.Inactive },
+    { label: 'Active', value: Status.Active },
+  ];
 
   constructor(
     private merchantService: MerchantService,
@@ -60,6 +64,7 @@ export class MerchantEditComponent {
       cityName: ['', Validators.required],
       specialPickupShippingCost: [0, Validators.required],
       merchantPayingPercentageForRejectedOrders: [0, Validators.required],
+      status: [Status.Active, Validators.required],
       specialPackages: [[]],
     });
 
@@ -74,16 +79,22 @@ export class MerchantEditComponent {
     const merchantId = this.route.snapshot.paramMap.get('id');
     if (merchantId) {
       this.merchantService
-        .GetById('https://localhost:5241/api/Merchant/' + merchantId)
+        .GetById('https://localhost:7057/api/Merchant/' + merchantId)
         .subscribe((merchant: IDisplayMerchant | undefined) => {
           if (this.merchantForm && merchant) {
             this.merchantForm.patchValue(merchant);
-            this.specialPackages = merchant.specialPackages;
+            this.specialPackages = merchant.specialPackages; // Populate specialPackages array
+            console.log(this.specialPackages);
+            this.merchantForm.patchValue({
+              governorateName: merchant.governorateName,
+              cityName: merchant.cityName,
+              branchName: merchant.branchName,
+            });
           }
         });
     }
 
-    const url = 'https://localhost:5241/api/';
+    const url = 'https://localhost:7057/api/';
 
     this.governorateService
       .GetAll(url + 'Governorate')
@@ -91,17 +102,13 @@ export class MerchantEditComponent {
         this.governorates = data;
       });
 
-    this.cityService
-      .GetAll(url + 'Cities')
-      .subscribe((data: IDisplayCity[]) => {
-        this.cities = data;
-      });
+    this.cityService.GetAll(url + 'Cities').subscribe((data: ICity[]) => {
+      this.cities = data;
+    });
 
-    this.branchService
-      .GetAll(url + 'Branches')
-      .subscribe((data: IDisplayBranch[]) => {
-        this.branches = data;
-      });
+    this.branchService.GetAll(url + 'Branches').subscribe((data: IBranch[]) => {
+      this.branches = data;
+    });
   }
 
   toggleAddNewPackage() {
@@ -156,26 +163,7 @@ export class MerchantEditComponent {
     }
   }
 
-  deleteSpecialPackage(index: number) {
-    const specialPackage = this.specialPackages[index];
-    this.specialPackages.splice(index, 1);
-
-    // Update merchantForm's specialPackages value
-    this.merchantForm.patchValue({
-      specialPackages: this.specialPackages,
-    });
-
-    this.merchantService
-      .Edit(this.merchantForm.value.id, this.merchantForm.value)
-      .subscribe({
-        next: () => {
-          this.deleteAlert = true;
-        },
-        error: (err) => {
-          console.error('Error deleting special package:', err);
-        },
-      });
-  }
+  deleteSpecialPackage(index: number) {}
 
   onSubmit() {}
 }

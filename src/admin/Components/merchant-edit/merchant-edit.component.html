@@ -20,6 +20,13 @@
         <label for="email">Email</label>
         <input type="email" id="email" name="email" formControlName="email" required>
       </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status" required>
+          <option *ngFor="let status of statusOptions" [value]="status.value">{{ status.label }}</option>
+        </select>
+      </div>
+
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -39,19 +46,19 @@
       <div class="form-group">
         <label for="branch">Branch</label>
         <select id="branch" formControlName="branchName" required>
-          <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+          <option *ngFor="let branch of branches" [value]="branch.name">{{ branch.name }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="governorate">Governorate</label>
         <select id="governorate" formControlName="governorateName" required>
-          <option *ngFor="let governorate of governorates" [value]="governorate.id">{{ governorate.name }}</option>
+          <option *ngFor="let governorate of governorates" [value]="governorate.name">{{ governorate.name }}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="city">City</label>
         <select id="city" formControlName="cityName" required>
-          <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+          <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
         </select>
       </div>
     </div>
@@ -66,7 +73,6 @@
           formControlName="merchantPayingPercentageForRejectedOrders" required>
       </div>
     </div>
-
     <div class="form-group">
       <p class="text">Special price packages</p>
     </div>
@@ -81,7 +87,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Iterate over existing data -->
           <tr *ngFor="let package of specialPackages; let i = index">
             <td>{{ package.governorateName }}</td>
             <td>{{ package.cityName }}</td>
@@ -95,6 +100,7 @@
           <!-- Conditionally display the new package fields -->
           <tr *ngIf="addSpecialPackage" [formGroup]="newPackageForm">
             <td>
+              <!-- Governorate dropdown -->
               <div class="form-group">
                 <select class="form-control" formControlName="governorateId" required>
                   <option *ngFor="let governorate of governorates" [value]="governorate.id">{{ governorate.name }}
@@ -103,6 +109,7 @@
               </div>
             </td>
             <td>
+              <!-- City dropdown -->
               <div class="form-group">
                 <select class="form-control" formControlName="cityId" required>
                   <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
@@ -110,11 +117,13 @@
               </div>
             </td>
             <td>
+              <!-- Shipping price input -->
               <div class="form-group">
                 <input type="number" class="form-control" formControlName="shippingPrice" required>
               </div>
             </td>
             <td>
+              <!-- Save button -->
               <button type="button" class="setting2" (click)="saveSpecialPackage()">
                 <i class="bi bi-check-lg"></i>
               </button>

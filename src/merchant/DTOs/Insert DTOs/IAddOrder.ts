@@ -1,6 +1,7 @@
 import { OrderStatus } from '../../Enums/OrderStatus';
 import { OrderTypes } from '../../Enums/OrderTypes';
 import { PaymentTypes } from '../../Enums/PaymentTypes';
+import { ShippingTypes } from '../../Enums/ShippingTypes';
 import { IAddProduct } from './IAddProduct';
 
 export interface IAddOrder {
@@ -18,9 +19,10 @@ export interface IAddOrder {
   cityId: number;
   shippingId: number;
   branchId: number;
-  RepresentativeId: string;
+  RepresentativeId?: string | undefined;
   status: OrderStatus;
   type: OrderTypes;
   paymentType: PaymentTypes;
+  shippingType: ShippingTypes;
   products: IAddProduct[];
 }

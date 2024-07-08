@@ -22,7 +22,7 @@ import { IDisplayBranch } from '../../../merchant/DTOs/Display DTOs/IDisplayBran
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './merchant-add.component.html',
-  styleUrl: './merchant-add.component.css'
+  styleUrl: './merchant-add.component.css',
 })
 export class MerchantAddComponent implements OnInit {
   addMerchantForm: FormGroup;
@@ -72,21 +72,21 @@ export class MerchantAddComponent implements OnInit {
   }
 
   loadGovernorates() {
-    const url = 'https://localhost:5241/api/Governorate';
+    const url = 'https://localhost:7057/api/Governorate';
     this.governorateService.GetAll(url).subscribe((governorates) => {
       this.governorates = governorates;
     });
   }
 
   loadCities() {
-    const url = 'https://localhost:5241/api/Cities';
+    const url = 'https://localhost:7057/api/Cities';
     this.cityService.GetAll(url).subscribe((cities) => {
       this.cities = cities;
     });
   }
 
   loadBranches() {
-    const url = 'https://localhost:5241/api/Branches';
+    const url = 'https://localhost:7057/api/Branches';
     this.branchService.GetAll(url).subscribe((branches) => {
       this.branches = branches;
     });
@@ -143,11 +143,11 @@ export class MerchantAddComponent implements OnInit {
     if (this.addMerchantForm.valid) {
       console.log(this.addMerchantForm.value);
       this.merchantService
-        .Add('https://localhost:5241/api/Merchant', this.addMerchantForm.value)
+        .Add('https://localhost:7057/api/Merchant', this.addMerchantForm.value)
         .subscribe(
           () => {
             alert('Merchant added successfully');
-            this.router.navigate(['/Admin']);
+            this.router.navigate(['/Admin/Merchant']);
           },
           (error) => {
             alert('An error occurred while adding the merchant');

@@ -1,7 +1,12 @@
 import { IBranch } from './../../DTOs/DisplayDTOs/IBranch';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from '../../Services/generic.service';
 import { IBranchInsert } from '../../DTOs/InsertDTOs/IBranchInsert';
@@ -16,28 +21,29 @@ import { BranchService } from '../../Services/branch.service';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './branch-from.component.html',
-  styleUrl: './branch-from.component.css'
+  styleUrl: './branch-from.component.css',
 })
 export class BranchFromComponent implements OnInit {
-
-  branchId: any = 0
-  branch: any = { id: 0, name: "", status: 0, addingDate: new Date(), cityId: 0 }
-  cities:any[] = []
+  branchId: any = 0;
+  branch: any = {
+    id: 0,
+    name: '',
+    status: 0,
+    addingDate: new Date(),
+    cityId: 0,
+  };
+  cities: any[] = [];
 
   constructor(
     public route: ActivatedRoute,
-    public routing:Router,
+    public routing: Router,
     // public branchServ: BranchService,
-    public branchServ:GenericService<IBranch,IBranchInsert,IBranchUpdate>,
+    public branchServ: GenericService<IBranch, IBranchInsert, IBranchUpdate>,
     public cityServ: GenericService<ICity, ICityInsert, ICityUpdate>
   ) {
     // branchServ.baseUrl="Branches"
     // cityServ.baseUrl = "Cities"
   }
-
-
-
-
 
   branchForm = new FormGroup({
     id: new FormControl(0),
@@ -45,10 +51,10 @@ export class BranchFromComponent implements OnInit {
     status: new FormControl(1, [Validators.required]),
     addingDate: new FormControl(new Date()),
     cityId: new FormControl(0, [Validators.required, Validators.min(1)]),
-  })
+  });
 
   get getId() {
-    return this.branchForm.controls['id']
+    return this.branchForm.controls['id'];
   }
   get getName() {
     return this.branchForm.controls['name'];
@@ -64,19 +70,16 @@ export class BranchFromComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.cityServ.GetAll("http://localhost:5241/api/Cities").subscribe({
+    this.cityServ.GetAll('https://localhost:7057/api/Cities').subscribe({
       next: (value) => {
         console.log(value);
 
-        this.cities = value
+        this.cities = value;
       },
       error: (err) => {
         console.log(err);
-
       },
-    })
-
+    });
 
     this.route.params.subscribe({
       next: (params) => {
@@ -84,70 +87,65 @@ export class BranchFromComponent implements OnInit {
 
         // edit branch
         if (this.branchId) {
-          this.branchServ.GetById("http://localhost:5241/api/branches/"+this.branchId).subscribe({
-            next: (value) => {
-              this.branch = value;
-              // console.log(this.branch);
-              this.getId.setValue(this.branch.id)
-              this.getName.setValue(this.branch?.name)
-              this.getCity.setValue(this.branch.cityId)
-              this.getStatus.setValue(this.branch.status)
-              this.getAddingDate.setValue(new Date())
-
-            },
-            error: (err) => {
-              console.log(err);
-
-            },
-          })
+          this.branchServ
+            .GetById('https://localhost:7057/api/branches/' + this.branchId)
+            .subscribe({
+              next: (value) => {
+                this.branch = value;
+                // console.log(this.branch);
+                this.getId.setValue(this.branch.id);
+                this.getName.setValue(this.branch?.name);
+                this.getCity.setValue(this.branch.cityId);
+                this.getStatus.setValue(this.branch.status);
+                this.getAddingDate.setValue(new Date());
+              },
+              error: (err) => {
+                console.log(err);
+              },
+            });
         }
-
       },
-    })
+    });
   }
 
-
   onSubmit() {
-
     this.branchForm.controls['cityId'].setValue(Number(this.getCity.value));
     this.branchForm.controls['status'].setValue(Number(this.getStatus.value));
-    this.branchForm.controls['id'].setValue(Number(this.branchId))
+    this.branchForm.controls['id'].setValue(Number(this.branchId));
     // console.log(this.branchForm.value)
-    this.branch = this.branchForm.value
+    this.branch = this.branchForm.value;
 
     if (this.branchId) {
-      this.branchServ.Edit("http://localhost:5241/api/branches/"+this.branchId, this.branch).subscribe({
-        next: (value) => {
-          // console.log(value);
-        },
-        error: (err) => {
-          console.log(err);
-
-        },
-      })
-    }
-    else {
+      this.branchServ
+        .Edit(
+          'https://localhost:7057/api/branches/' + this.branchId,
+          this.branch
+        )
+        .subscribe({
+          next: (value) => {
+            // console.log(value);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+    } else {
       let newBranch: any = {
         name: this.getName.value,
         status: this.getStatus.value,
         cityId: this.getCity.value,
-      }
-      this.branchServ.Add("http://localhost:5241/api/branches",newBranch).subscribe({
-        next: (value) => {
-          console.log(value);
-
-        },
-        error: (err) => {
-          console.log(err);
-
-        },
-      })
+      };
+      this.branchServ
+        .Add('https://localhost:7057/api/branches', newBranch)
+        .subscribe({
+          next: (value) => {
+            console.log(value);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
     }
-    this.routing.navigate(['/admin/branch'])
-
+    this.routing.navigate(['/admin/branch']);
   }
-
-
-
-
 }

@@ -1,6 +1,7 @@
 import { OrderStatus } from '../../Enums/OrderStatus';
 import { OrderTypes } from '../../Enums/OrderTypes';
 import { PaymentTypes } from '../../Enums/PaymentTypes';
+import { ShippingTypes } from '../../Enums/ShippingTypes';
 import { IDisplayProduct } from './IDisplayProduct';
 
 export interface IDisplayOrder {
@@ -19,7 +20,6 @@ export interface IDisplayOrder {
   governorateName: string;
   cityName: string;
   branchName: string;
-  shippingType: string;
   representativeName: string;
   orderMoneyReceived?: number;
   shippingMoneyReceived?: number;
@@ -28,4 +28,5 @@ export interface IDisplayOrder {
   type: OrderTypes;
   paymentType: PaymentTypes;
   products: IDisplayProduct[];
+  shippingType: ShippingTypes;
 }

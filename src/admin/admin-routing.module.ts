@@ -1,4 +1,3 @@
-import { RepresentativeListComponent } from './Components/representative-list/representative-list.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MerchantAddComponent } from './Components/merchant-add/merchant-add.component';
@@ -10,7 +9,6 @@ import { MerchantListComponent } from './Components/merchant-list/merchant-list.
 import { MerchantEditComponent } from './Components/merchant-edit/merchant-edit.component';
 
 const routes: Routes = [
-  { path: 'representative', component: RepresentativeListComponent },
   { path: 'representative/add', component: RepresentativeFormComponent },
   { path: 'representative/edit/:id', component: RepresentativeFormComponent },
   { path: 'merchant', component: MerchantListComponent },

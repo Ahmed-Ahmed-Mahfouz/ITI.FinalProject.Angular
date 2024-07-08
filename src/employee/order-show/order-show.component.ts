@@ -9,27 +9,26 @@ import { IUpdateOrder } from '../../merchant/DTOs/Update DTOs/IUpdateOrder';
 @Component({
   selector: 'app-order-show',
   standalone: true,
-  imports: [RouterLink,CommonModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './order-show.component.html',
-  styleUrl: './order-show.component.css'
+  styleUrl: './order-show.component.css',
 })
 export class OrderShowComponent implements OnInit {
-  baseUrl:string="http://localhost:5241/api/";
-  orders:IDisplayOrder[]=[]
+  baseUrl: string = 'https://localhost:7057/api/';
+  orders: IDisplayOrder[] = [];
 
-  constructor(public orderServ:GenericService<IDisplayOrder,IAddOrder,IUpdateOrder>) {
-  }
+  constructor(
+    public orderServ: GenericService<IDisplayOrder, IAddOrder, IUpdateOrder>
+  ) {}
 
   ngOnInit(): void {
-    this.orderServ.GetAll(this.baseUrl+"orders").subscribe({
-      next:(value)=> {
-        this.orders=value;
+    this.orderServ.GetAll(this.baseUrl + 'orders').subscribe({
+      next: (value) => {
+        this.orders = value;
       },
-      error:(err)=> {
+      error: (err) => {
         console.log(err);
-
       },
-    })
+    });
   }
-
 }

@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { IDisplayMerchant } from '../../DTOs/DisplayDTOs/IDisplayMerchant';
 import { MerchantService } from '../../Services/merchant.service';
 import { Status } from '../../Enums/Status';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-merchant-list',
@@ -13,7 +15,7 @@ import { Status } from '../../Enums/Status';
   templateUrl: './merchant-list.component.html',
   styleUrls: ['./merchant-list.component.css'],
 })
-export class MerchantListComponent implements OnInit {
+export class MerchantListComponent implements OnInit, OnDestroy {
   data: IDisplayMerchant[] = [];
   selectedEntries = 8;
   searchTerm = '';
@@ -23,81 +25,81 @@ export class MerchantListComponent implements OnInit {
   endIndex = 0;
   filteredData: IDisplayMerchant[] = [];
   pagedData: IDisplayMerchant[] = [];
+  private destroy$ = new Subject<void>();
 
-  constructor(
-    private merchantService: MerchantService,
-    private router: Router
-  ) {}
+  constructor(private merchantService: MerchantService) {}
 
   ngOnInit(): void {
     this.loadMerchants();
   }
 
   loadMerchants(): void {
-    const url = 'https://localhost:5241/api/Merchant';
-    this.merchantService.GetAll(url).subscribe(
-      (merchants) => {
-        this.data = merchants;
-        this.updateTable();
-      },
-      (error) => {
-        console.error('Error fetching merchants:', error);
-      }
-    );
+    const url = `https://localhost:7057/api/Merchant?page=${this.currentPage}&pageSize=${this.selectedEntries}&searchTerm=${this.searchTerm}`;
+    this.merchantService
+      .GetPage(url)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: any) => {
+          if (Array.isArray(response)) {
+            // Handle the case where the response is an array
+            this.data = response;
+            this.totalPages = Math.ceil(response.length / this.selectedEntries); // Calculate totalPages based on response length
+          } else if (
+            response &&
+            response.List &&
+            Array.isArray(response.List)
+          ) {
+            // Handle the case where the response matches IPaginationDTO
+            this.data = response.List;
+            this.totalPages =
+              response.TotalPages ||
+              Math.ceil(response.TotalCount / this.selectedEntries); // Calculate totalPages based on TotalCount
+          } else {
+            console.error('Unexpected API response format:', response);
+            return; // Exit the method early
+          }
+
+          this.updateTable();
+        },
+        error: (error) => {
+          console.error('Error fetching merchants:', error);
+        },
+      });
   }
 
   onEntriesChange(): void {
     this.currentPage = 1;
-    this.updateTable();
+    this.loadMerchants();
   }
 
   onSearchChange(): void {
     this.currentPage = 1;
-    this.updateTable();
+    this.loadMerchants();
   }
 
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateTable();
+      this.loadMerchants();
     }
   }
 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateTable();
+      this.loadMerchants();
     }
   }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.updateTable();
+      this.loadMerchants();
     }
   }
 
   updateTable(): void {
-    let filteredData = this.data;
-    if (this.searchTerm) {
-      filteredData = filteredData.filter(
-        (row) =>
-          row.userName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          row.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          row.phoneNumber.includes(this.searchTerm) ||
-          row.branchName
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase()) ||
-          this.getStatusText(row.status)
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase())
-      );
-    }
-
-    this.filteredData = filteredData;
-    this.totalPages = Math.ceil(
-      this.filteredData.length / this.selectedEntries
-    );
+    this.filteredData = this.data || []; // Ensure filteredData is always an array
     this.startIndex = (this.currentPage - 1) * this.selectedEntries;
     this.endIndex = Math.min(
       this.startIndex + this.selectedEntries,
@@ -112,5 +114,10 @@ export class MerchantListComponent implements OnInit {
 
   getRowIndex(index: number): number {
     return this.startIndex + index + 1;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

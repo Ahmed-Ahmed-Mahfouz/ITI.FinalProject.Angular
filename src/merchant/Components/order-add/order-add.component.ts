@@ -9,7 +9,6 @@ import {
 import { Router } from '@angular/router';
 import { OrderService } from '../../Services/order.service';
 import { ProductService } from '../../Services/product.service';
-import { ShippingService } from '../../Services/shipping.service';
 import { CityService } from '../../Services/city.service';
 import { GovernorateService } from '../../Services/governorate.service';
 import { BranchService } from '../../Services/branch.service';
@@ -19,8 +18,6 @@ import { OrderStatus } from '../../Enums/OrderStatus';
 import { OrderTypes } from '../../Enums/OrderTypes';
 import { PaymentTypes } from '../../Enums/PaymentTypes';
 import { ShippingTypes } from '../../Enums/ShippingTypes';
-import { IDisplayShipping } from '../../DTOs/Display DTOs/IDisplayShipping';
-import { IAddShipping } from '../../DTOs/Insert DTOs/IAddShipping';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -36,7 +33,6 @@ export class OrderAddComponent implements OnInit {
   cities: any[] = [];
   governorates: any[] = [];
   branches: any[] = [];
-  shippings: IDisplayShipping[] = [];
 
   addingProduct: boolean = false;
 
@@ -46,8 +42,7 @@ export class OrderAddComponent implements OnInit {
     private productService: ProductService,
     private cityService: CityService,
     private governorateService: GovernorateService,
-    private branchService: BranchService,
-    private shippingService: ShippingService
+    private branchService: BranchService
   ) {}
 
   ngOnInit() {
@@ -65,6 +60,7 @@ export class OrderAddComponent implements OnInit {
       status: [OrderStatus.Pending, Validators.required],
       type: [0, Validators.required],
       paymentType: [0, Validators.required],
+      shippingType: [0, Validators.required],
       products: this.formBuilder.array([]),
     });
 
@@ -72,7 +68,7 @@ export class OrderAddComponent implements OnInit {
   }
 
   loadDropdownData() {
-    const url = 'http://localhost:5241/api/';
+    const url = 'https://localhost:7057/api/';
     this.cityService
       .GetAll(url + 'Cities')
       .subscribe((data) => (this.cities = data));
@@ -82,21 +78,12 @@ export class OrderAddComponent implements OnInit {
     this.branchService
       .GetAll(url + 'Branches')
       .subscribe((data) => (this.branches = data));
-    this.shippingService
-      .GetAll(url + 'Shipping')
-      .subscribe((data: IDisplayShipping[]) => {
-        this.shippings = data;
-      });
   }
 
   getEnumKeyValue(enumObj: any): { key: number; value: string }[] {
     return Object.keys(enumObj)
       .filter((key) => !isNaN(Number(key)))
       .map((key) => ({ key: Number(key), value: enumObj[key] }));
-  }
-
-  getShippingTypeText(type: ShippingTypes): string {
-    return ShippingTypes[type];
   }
 
   get orderTypes() {
@@ -148,7 +135,7 @@ export class OrderAddComponent implements OnInit {
       // Assuming there's a method in the ProductService to save a product
       // This is a hypothetical example, adjust according to your actual ProductService
       const productData = this.products.at(this.products.length - 1).value; // Get the last product added
-      const url = 'http://localhost:5241/api/Products';
+      const url = 'https://localhost:7057/api/Products';
       this.productService.Add(url, productData).subscribe({
         next: (response) => {
           console.log('Product saved successfully', response);
@@ -183,17 +170,17 @@ export class OrderAddComponent implements OnInit {
         status: Number(this.orderForm.controls['status'].value),
         type: Number(this.orderForm.controls['type'].value),
         paymentType: Number(this.orderForm.controls['paymentType'].value),
+        shippingType: Number(this.orderForm.controls['shippingType'].value),
         products: this.products.value.map((product: any) => ({
           ...product,
           weight: +product.weight,
           quantity: +product.quantity,
           price: +product.price,
         })),
-        merchantId: '1f4e64c0-3b12-49d2-bd29-2ba9ac31eaa5',
-        RepresentativeId: '058944e8-9e9b-46d8-b53c-c0940a1ed1f8',
+        merchantId: 'a3220642-85bc-461e-9177-3f054f07182a',
       };
       console.log(orderData);
-      const url = 'http://localhost:5241/api/Orders';
+      const url = 'https://localhost:7057/api/Orders';
       this.orderService.Add(url, orderData).subscribe(
         (response) => {
           console.log('Order and products added successfully', response);

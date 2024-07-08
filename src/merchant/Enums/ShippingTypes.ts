@@ -1,5 +1,5 @@
 export enum ShippingTypes {
-  Ordinary,
-  Within24Hours,
-  Within15Days,
+  Ordinary = 0,
+  Within24Hours = 1,
+  Within15Days = 2,
 }

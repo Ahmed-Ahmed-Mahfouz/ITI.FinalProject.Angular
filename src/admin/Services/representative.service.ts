@@ -1,29 +1,27 @@
-import { AddRepresentative } from '../DTOs/InsertDTOs/IRepresentativeInsert';
+import { IRepresentativeInsert } from '../DTOs/InsertDTOs/IRepresentativeInsert';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RepresentativeService {
+  baseURL: string = 'https://localhost:5241/api/Representative/';
+  constructor(public httpClient: HttpClient) {}
 
-  baseURL:string="https://localhost:5241/api/Representative/";
-  constructor(public httpClient:HttpClient) { }
-
-  addRepresentative(representative:AddRepresentative){
-    return this.httpClient.post(this.baseURL,representative);
+  addRepresentative(representative: IRepresentativeInsert) {
+    return this.httpClient.post(this.baseURL, representative);
   }
-  getAllRepresentatives(){
+  getAllRepresentatives() {
     return this.httpClient.get(this.baseURL);
   }
-  getRepresentative(id:string){
-    return this.httpClient.get(this.baseURL+id);
+  getRepresentative(id: string) {
+    return this.httpClient.get(this.baseURL + id);
   }
-  editRepresentative(id:string,representative:AddRepresentative){
-    return this.httpClient.put(this.baseURL+id,representative);
+  editRepresentative(id: string, representative: IRepresentativeInsert) {
+    return this.httpClient.put(this.baseURL + id, representative);
   }
-  deleteRepresentative(id:string){
-    return this.httpClient.delete(this.baseURL+id);
+  deleteRepresentative(id: string) {
+    return this.httpClient.delete(this.baseURL + id);
   }
-
 }

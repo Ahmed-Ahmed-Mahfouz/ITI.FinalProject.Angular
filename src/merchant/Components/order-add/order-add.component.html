@@ -57,10 +57,9 @@
     <div class="form-row">
       <div class="form-group">
         <label for="shipping">Shipping type</label>
-        <select id="shipping" formControlName="shippingId" required>
+        <select id="shipping" formControlName="shippingType" required>
           <option value="" disabled>Select Shipping Type</option>
-          <option *ngFor="let shipping of shippings" [value]="shipping.id">{{ getShippingTypeText(shipping.shippingType)
-            }}
+          <option *ngFor=" let shippingType of shippingTypes" [value]="shippingType.key">{{ shippingType.value}}
           </option>
         </select>
       </div>
