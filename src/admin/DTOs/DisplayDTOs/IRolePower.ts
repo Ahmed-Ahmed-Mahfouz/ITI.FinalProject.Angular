@@ -1,8 +1,8 @@
-import { PowerTypes } from '../../Enums/PowerTypes';
+import { IPowers } from './IPowers';
 
 export interface IRolePower {
   roleId: string;
   roleName: string;
-  power: PowerTypes;
   timeOfAddtion: Date;
+  powers:IPowers[] | undefined
 }

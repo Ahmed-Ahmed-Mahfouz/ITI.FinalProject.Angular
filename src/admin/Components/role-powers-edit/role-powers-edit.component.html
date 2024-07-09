@@ -1,17 +1,17 @@
 <div class="form-container">
-    <h2>Add Governorate</h2>
-    <form class="form" [formGroup]="form" (submit)="addGovernorate()">
+    <h2>Edit Role</h2>
+    <form class="form" [formGroup]="form" (submit)="editRole()">
         <div class="form-row">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" formControlName="name">
-                @if (form.controls['name'].touched && getName.errors) {
-                    <div id="name-validation" class="form-text text-danger">Governorate Name is Required and must have 4 or more characters</div>
+                @if (form.controls['name']) {
+                    <input type="text" id="name" name="name" formControlName="name">
+                    @if (form.controls['name'].touched && getName.errors) {
+                        <div id="name-validation" class="form-text text-danger">Governorate Name is Required and must have 4 or more characters</div>
+                    }
                 }
             </div>
-            <div class="form-group">
-                <!-- <label for="email">Status</label>
-                <input type="email" id="email" name="email"> -->
+            <!-- <div class="form-group">
                 <label for="status">Status</label>
                 <select class="form-select text-center" id="status" formControlName="status">
                     <option selected disabled value=-1>--Select the governorate status--</option>
@@ -22,11 +22,70 @@
                 @if (form.controls['status'].touched && getStatus.errors) {
                     <div id="status-validation" class="form-text text-danger">Governorate Status is Required</div>
                 }
-            </div>
+            </div> -->
             <!-- <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password">
             </div> -->
+        </div>
+        <div class="form-row">
+            <div class="table-container">
+                <table class="product-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Power</th>
+                      <th>Add</th>
+                      <th>Delete</th>
+                      <th>Edit</th>
+                      <th>Show</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of powers; let i = index" >
+                      <td>{{ i + 1 }}</td>
+                      <td>
+                        <div class="name-role">
+                          <span class="name">{{ getTableName(row.tableName) }}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="name-role">
+                            <input class="form-check" type="checkbox" id="{{ getTableName(row.tableName) }}Create" name="{{ getTableName(row.tableName) }}Create" formControlName="{{ getTableName(row.tableName) }}Create">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="name-role">
+                            <input class="form-check" type="checkbox" id="{{ getTableName(row.tableName) }}Delete" name="{{ getTableName(row.tableName) }}Delete" formControlName="{{ getTableName(row.tableName) }}Delete">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="name-role">
+                            <input class="form-check" type="checkbox" id="{{ getTableName(row.tableName) }}Update" name="{{ getTableName(row.tableName) }}Update" formControlName="{{ getTableName(row.tableName) }}Update">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="name-role">
+                            <input class="form-check" type="checkbox" id="{{ getTableName(row.tableName) }}Read" name="{{ getTableName(row.tableName) }}Read" formControlName="{{ getTableName(row.tableName) }}Read">
+                        </div>
+                      </td>
+                      <!-- <td>
+                        <span class="badge"
+                          [ngClass]="{'active': getStatusText(row.status) === 'Active', 'inactive': getStatusText(row.status) === 'Inactive'}">
+                          {{ getStatusText(row.status) }}
+                        </span>
+                      </td>
+                      <td class="settings">
+                        <div class="pen-settings">
+                          <a class="setting" [routerLink]="['/admin/governorate/edit', row.id]">
+                            <i class="bi bi-pencil"></i>
+                          </a>
+                        </div>
+                      </td> -->
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
         </div>
       <!-- <div class="form-row">
         <div class="form-group">

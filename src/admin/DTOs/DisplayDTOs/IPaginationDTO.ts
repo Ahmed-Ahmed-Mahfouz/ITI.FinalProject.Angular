@@ -1,5 +1,5 @@
 export interface IPaginationDTO<T extends object>  {
-    TotalCount:number,
-    TotalPages:number,
-    List:T[]
+    totalCount:number,
+    totalPages:number,
+    list:T[]
 }

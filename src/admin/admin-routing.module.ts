@@ -6,6 +6,10 @@ import { MerchantEditComponent } from './Components/merchant-edit/merchant-edit.
 import { RepresentativeFormComponent } from './Components/representative-form/representative-form.component';
 import { BranchFromComponent } from './Components/branch-from/branch-from.component';
 import { GovernorateListComponent } from './Components/governorate-list/governorate-list.component';
+import { GovernorateAddComponent } from './Components/governorate-add/governorate-add.component';
+import { RolePowersListComponent } from './Components/role-powers-list/role-powers-list.component';
+import { GovernorateEditComponent } from './Components/governorate-edit/governorate-edit.component';
+import { RolePowersEditComponent } from './Components/role-powers-edit/role-powers-edit.component';
 
 const routes: Routes = [
   { path: 'representative/add', component: RepresentativeFormComponent },
@@ -15,7 +19,11 @@ const routes: Routes = [
   { path: 'merchant/edit/:id', component: MerchantEditComponent },
   { path: 'branch/add', component: BranchFromComponent },
   { path: 'branch/edit/:id', component: BranchFromComponent },
-  { path: 'governorate', component:GovernorateListComponent}
+  { path: 'governorate', component:GovernorateListComponent},
+  { path: 'governorate/add', component:GovernorateAddComponent},
+  { path: 'role', component:RolePowersListComponent},
+  { path: 'governorate/edit/:id', component:GovernorateEditComponent },
+  { path: 'role/edit/:id', component:RolePowersEditComponent }
 ];
 
 @NgModule({

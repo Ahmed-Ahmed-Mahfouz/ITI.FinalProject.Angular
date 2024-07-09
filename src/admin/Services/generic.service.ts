@@ -19,7 +19,7 @@ export class GenericService<
     //   'Access-Control-Allow-Origin': '*',
     // });
     this.headers = new HttpHeaders({
-      Authorization: `Bearer `,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiYmIwZDVlOTktYzAzMy00MzcyLThiZTctZGJhOWZlYjMyMjI5IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluIiwiRXhwaXJlRGF0ZSI6IldlZG5lc2RheSwgSnVseSAxMCwgMjAyNCAyOjI4IEFNIiwiVXNlclR5cGUiOiJBZG1pbiIsImV4cCI6MTcyMDU2NzcyMX0.u6ly5V-JXseqi6inMI3M8jw5ZQay7VRqJqo8rNWd3gU`,
       'Access-Control-Allow-Origin': '*',
     });
   }

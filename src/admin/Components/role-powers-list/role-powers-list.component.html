@@ -13,9 +13,9 @@
       <label for="search">Search:</label>
       <input type="text" id="search" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="🔍 Search records">
     </div>
-  </div>
+</div>
   
-  <div class="table-container">
+<div class="table-container">
     <table class="product-table">
       <thead>
         <tr>
@@ -27,34 +27,39 @@
       </thead>
       <tbody>
         <tr *ngFor="let row of data; let i = index">
-          <td>{{ row.id }}</td>
+          <td>{{ row.roleId }}</td>
           <td>
             <div class="name-role">
-              <span class="name">{{ row.name }}</span>
+              <span class="name">{{ row.roleName }}</span>
             </div>
           </td>
-          <!-- <td>{{ row.email }}</td>
-          <td><span>{{ row.phoneNumber }}</span></td>
+          <td>{{ row.timeOfAddtion }}</td>
+          <!-- <td><span>{{ row.phoneNumber }}</span></td>
           <td>{{ row.branchName }}</td> -->
-          <td>
+          <!-- <td>
             <span class="badge"
-              [ngClass]="{'active': getStatusText(row.status) === 'Active', 'inactive': getStatusText(row.status) === 'Inactive'}">
+              [ngClass]="{'active': getStatusText(row.status) === 'Active', 'inActive': getStatusText(row.status) === 'Inactive'}">
               {{ getStatusText(row.status) }}
             </span>
-          </td>
+          </td> -->
           <td class="settings">
             <div class="pen-settings">
-              <a class="setting" [routerLink]="['/admin/governorate/edit', row.id]">
+              <a class="setting" [routerLink]="['/admin/role/edit', row.roleId]">
                 <i class="bi bi-pencil"></i>
+              </a>
+            </div>
+            <div class="trash-settings ms-2">
+              <a class="setting" style="cursor: pointer;" (click)="deleteRole(row.roleId)" >
+                <i class="bi bi-trash text-black"></i>
               </a>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-  </div>
+</div>
   
-  <div class="pagination">
+<div class="pagination">
     <button type="button" (click)="previousPage()" [disabled]="currentPage === 1">
       <i class="bi bi-arrow-left"></i>
     </button>
@@ -72,3 +77,18 @@
     <!-- Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ filteredData.length }} entries -->
     Showing {{ ((( (currentPage - 1) * selectedEntries) + 1) > totalCount)?totalCount:(( (currentPage - 1) * selectedEntries) + 1) }} to {{ ((selectedEntries * currentPage) > totalCount)?totalCount:(selectedEntries * currentPage) }} of {{ totalCount }} entries
   </div>
+<div class="d-grid">
+    <button (click)="toggleModal()" class="add-btn rounded-5 py-2 px-4 fs-5 fw-bold" style="justify-self: end;">Add Role <i class="bi bi-plus"></i></button>
+</div>
+
+<div *ngIf="showModal" class="popup-modal" (click)="closeModal()">
+    <div class="modal-content d-grid" (click)="stopPropagation($event)">
+        <button class="close-button" (click)="toggleModal()"><i class="bi bi-x"></i></button>
+        <label class="input-label">Role Name</label>
+        <input type="text" class="input-field" id="name" (input)="roleNameModified()" [(ngModel)]="roleName" placeholder="Enter Role Name">
+        @if (!isValid) {
+            <div id="name-validation" class="form-text text-danger">Role Name is Required and must have 3 or more characters</div>
+        }
+        <button class="confirm-button mt-2 w-50" style="justify-self: center;" (click)="addRole()">Add Role</button>
+    </div>
+</div>
