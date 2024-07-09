@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPaginationDTO } from '../DTOs/DisplayDTOs/IPaginationDTO';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +18,7 @@ export class GenericService<
     //   'Access-Control-Allow-Origin': '*',
     // });
     this.headers = new HttpHeaders({
-      Authorization: `Bearer `,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNmExNTNjMDMtNTQ3YS00ZTY3LWEzZmQtMGI3YjBiN2Q4Njk2IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluIiwiRXhwaXJlRGF0ZSI6IlR1ZXNkYXksIEp1bHkgOSwgMjAyNCA4OjA2IFBNIiwiVXNlclR5cGUiOiJBZG1pbiIsImV4cCI6MTcyMDU0NDgwOH0.ojkql_UWgpx6X3iaT1AAZL3KWzMrE7cHkcIrh0w7n9E`,
       'Access-Control-Allow-Origin': '*',
     });
   }

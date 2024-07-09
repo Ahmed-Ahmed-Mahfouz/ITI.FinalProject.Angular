@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class CityService extends GenericService<IDisplayCity,IAddCity,IUpdateCity,number> {
+export class CityService extends GenericService<IDisplayCity,IAddCity,IUpdateCity> {
 
   constructor(httpClient:HttpClient) 
   {

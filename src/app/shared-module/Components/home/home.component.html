@@ -3,22 +3,22 @@
       <div class="home-page">Home Page</div>
     </div>
     <div class="home-row">
-      <div class="home-card">New<span class="badge">16</span></div>
-      <div class="home-card">Pending <span class="badge">5</span></div>
-      <div class="home-card">Delivered to Representative<span class="badge">23</span></div>
+      <div class="home-card">New<span class="badge">{{orderStatuses?.New}}</span></div>
+      <div class="home-card">Pending <span class="badge">{{orderStatuses?.Pending}}</span></div>
+      <div class="home-card">Delivered to Representative<span class="badge">{{orderStatuses?.RepresentativeDelivered}}</span></div>
     </div>
     <div class="home-row">
-      <div class="home-card">Delivered<span class="badge">17</span></div>
-      <div class="home-card">Not Accessed<span class="badge">47</span></div>
-      <div class="home-card">PostPoned<span class="badge">10</span></div>
+      <div class="home-card">Delivered<span class="badge">{{orderStatuses?.Delivered}}</span></div>
+      <div class="home-card">Not Accessed<span class="badge">{{orderStatuses?.Unreachable}}</span></div>
+      <div class="home-card">PostPoned<span class="badge">{{orderStatuses?.Delayed}}</span></div>
     </div>
     <div class="home-row">
-      <div class="home-card">Partially Delivered<span class="badge">98</span></div>
-      <div class="home-card">Canceled by Recipient<span class="badge">2</span></div>
-      <div class="home-card">Rejected but Paid<span class="badge">6</span></div>
+      <div class="home-card">Partially Delivered<span class="badge">{{orderStatuses?.PartiallyDelivered}}</span></div>
+      <div class="home-card">Canceled by Recipient<span class="badge">{{orderStatuses?.Cancelled}}</span></div>
+      <div class="home-card">Rejected but Paid<span class="badge">{{orderStatuses?.RejectedWithPayment}}</span></div>
     </div>
     <div class="home-row">
-      <div class="home-card">Rejected with Partial Payment<span class="badge">14</span></div>
-      <div class="home-card">Rejected and not Paid<span class="badge">12</span></div>
+      <div class="home-card">Rejected with Partial Payment<span class="badge">{{orderStatuses?.RejectedWithPartiallyPayment}}</span></div>
+      <div class="home-card">Rejected and not Paid<span class="badge">{{orderStatuses?.RejectedWithoutPayment}}</span></div>
     </div>
 </div>

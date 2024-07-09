@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SettingComponent } from './settings/setting/setting.component';
+import { SettingListComponent } from './settings/setting-list/setting-list.component';
+import { SettingEditComponent } from './settings/setting-edit/setting-edit.component';
 
 const routes: Routes = [
-    { path: 'settings', component:SettingComponent },
+    { path: 'setting', component:SettingListComponent},
+    { path: 'setting/edit/:id', component:SettingEditComponent},    
 ];
 
 @NgModule({

@@ -1,25 +1,25 @@
 <div class="form-container">
     <h2>Edit City</h2>
-    <form [formGroup]="cityForm">
+    <form [formGroup]="cityForm" (ngSubmit)="updateCity()">
       <div class="form-row">
         <div class="form-group">
             <label for="governorate">Governorate</label>
-            <select id="governorate" name="governorate" required>
-              <option value="" disabled selected>Select Governorate</option>
-              <!-- Add your governorates here -->
+            <select id="governorate" name="governorate" formControlName="governorateId" required>
+              <option value="0" disabled selected>Select Governorate</option>
+              <option *ngFor="let gov of governorates" [value]="gov.id">{{gov.name}}</option>
             </select>
         </div>
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" name="name" required>
+          <input type="text" id="name" formControlName="name" name="name" required>
         </div>
         <div class="form-group">
           <label for="email">Normal Shipping Cost</label>
-          <input type="text" id="normalShippingCost" name="normalShippingCost" required>
+          <input type="text" id="normalShippingCost" formControlName="normalShippingCost" name="normalShippingCost" required>
         </div>
         <div class="form-group">
             <label for="email">Pick-Up Shipping Cost</label>
-            <input type="text" id="pickupShippingCost" name="pickupShippingCost" required>
+            <input type="text" id="pickupShippingCost" formControlName="pickupShippingCost" name="pickupShippingCost" required>
           </div>
       </div>
       <div class="form-row save-button-container">

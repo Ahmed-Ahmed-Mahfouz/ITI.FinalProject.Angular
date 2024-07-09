@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { OrderReportComponent } from './shared-module/Components/order-report/order-report.component';
 import { HomeComponent } from "./shared-module/Components/home/home.component";
-
 @Component({
     selector: 'app-root',
     standalone: true,
