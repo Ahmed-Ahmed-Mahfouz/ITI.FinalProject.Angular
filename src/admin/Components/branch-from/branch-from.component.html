@@ -33,16 +33,7 @@
 
       </div>
     </div>
-    <!-- <div class="row w-100 ">
-      <div class="col-4 mb-3  d-flex flex-column">
-        <label for="exampleInputPassword1" class="form-label">addingDate</label>
-         <input type="datetime-local" class="" id="exampleInputPassword1" formControlName="addingDate">
-         <label *ngIf="(getAddingDate.hasError('required') || getAddingDate.hasError('pattern'))  && getAddingDate.touched" class="error">
-           Invalid Password
-         </label>
-     </div>
-    </div> -->
-    <div class="row ">
+        <div class="row ">
       <button (click)="onSubmit()" [disabled]="!branchForm.valid" class="btn btn-primary ms-2">Submit</button>
     </div>
 

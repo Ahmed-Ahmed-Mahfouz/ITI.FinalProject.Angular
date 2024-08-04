@@ -1,3 +1,4 @@
+<h2>Governorate List</h2>
 <div class="table-controls">
     <div class="entries-select">
       <label for="entries">Show</label>
@@ -14,7 +15,7 @@
       <input type="text" id="search" [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="🔍 Search records">
     </div>
   </div>
-  
+
   <div class="table-container">
     <table class="product-table">
       <thead>
@@ -26,25 +27,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of pagedData; let i = index">
-          <td>{{ getRowIndex(i) }}</td>
+        <tr *ngFor="let row of data; let i = index">
+          <td>{{ row.id }}</td>
           <td>
             <div class="name-role">
               <span class="name">{{ row.name }}</span>
             </div>
           </td>
-          <!-- <td>{{ row.email }}</td>
-          <td><span>{{ row.phoneNumber }}</span></td>
-          <td>{{ row.branchName }}</td> -->
-          <td>
+                    <td>
             <span class="badge"
-              [ngClass]="{'active': getStatusText(row.status) === 'Active', 'inActive': getStatusText(row.status) === 'Inactive'}">
+              [ngClass]="{'active': getStatusText(row.status) === 'Active', 'inactive': getStatusText(row.status) === 'Inactive'}">
               {{ getStatusText(row.status) }}
             </span>
           </td>
           <td class="settings">
             <div class="pen-settings">
-              <a class="setting" [routerLink]="['/admin/merchant/edit', row.id]">
+              <a class="setting" [routerLink]="['/admin/governorate/edit', row.id]">
                 <i class="bi bi-pencil"></i>
               </a>
             </div>
@@ -53,7 +51,7 @@
       </tbody>
     </table>
   </div>
-  
+
   <div class="pagination">
     <button type="button" (click)="previousPage()" [disabled]="currentPage === 1">
       <i class="bi bi-arrow-left"></i>
@@ -69,5 +67,11 @@
     </button>
   </div>
   <div class="pagination-info">
-    Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ filteredData.length }} entries
+    
+    Showing {{ ((( (currentPage - 1) * selectedEntries) + 1) > totalCount)?totalCount:(( (currentPage - 1) * selectedEntries) + 1) }} to {{ ((selectedEntries * currentPage) > totalCount)?totalCount:(selectedEntries * currentPage) }} of {{ totalCount }} entries
   </div>
+
+  <div class="d-grid">
+    <button  [routerLink]='["/admin/governorate/add"]' class="add-btn rounded-5 py-2 px-4 fs-5 fw-bold " style="justify-self: end;">Add Governorate <i class="bi bi-plus"></i></button>
+  </div>
+

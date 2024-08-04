@@ -13,5 +13,4 @@ export interface IRepresentativeInsert{
     discountType:DiscountType,
     companyPercentage:number,
     userStatus:Status,
-
 }

@@ -57,7 +57,7 @@ form {
   box-sizing: border-box;
   font-size: 16px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  /* Add transition properties */
+  
 }
 
 .form-group input:focus,
@@ -67,7 +67,7 @@ form {
   box-shadow: 0 0 0 0.2rem rgba(0, 193, 207, 0.25);
 }
 
-/* Optional: Apply hover styles for better user feedback */
+
 .form-group input:hover,
 .form-group select:hover {
   border-color: #b3b3b3;
@@ -106,13 +106,13 @@ button {
 
 .cancel-btn {
   background-color: #dc3545;
-  /* Red color for the cancel state */
+  
   color: #fff;
 }
 
 .cancel-btn:hover {
   background-color: #a71d2a;
-  /* Darker red for hover state */
+  
 }
 
 .save-btn {
@@ -189,7 +189,7 @@ button {
   -webkit-text-stroke: 1px;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 768px) {
 
   .product-table,
@@ -243,7 +243,7 @@ button {
     align-items: center;
   }
 
-  /* Adjust column headers for readability */
+  
   .product-table td:nth-of-type(1):before {
     content: "Governorate";
   }
@@ -293,9 +293,9 @@ button {
 .form-group input[type="number"]:focus,
 .form-group select:focus {
   border-color: #00c1cf;
-  /* Your custom focus color */
+  
   box-shadow: 0 0 0 0.2rem rgba(0, 193, 207, 0.25);
-  /* Optional: Add a box-shadow for focus */
+  
   outline: none;
-  /* Ensure no default outline */
+  
 }

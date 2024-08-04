@@ -1,6 +1,6 @@
 import { IBranch } from './../../DTOs/DisplayDTOs/IBranch';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -15,6 +15,7 @@ import { ICity } from '../../DTOs/DisplayDTOs/ICity';
 import { ICityInsert } from '../../DTOs/InsertDTOs/ICityInsert';
 import { ICityUpdate } from '../../DTOs/UpdateDTOs/ICityUpdate';
 import { BranchService } from '../../Services/branch.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-branch-from',
@@ -23,7 +24,8 @@ import { BranchService } from '../../Services/branch.service';
   templateUrl: './branch-from.component.html',
   styleUrl: './branch-from.component.css',
 })
-export class BranchFromComponent implements OnInit {
+export class BranchFromComponent implements OnInit, OnDestroy {
+  baseURL: string = 'http://localhost:5241/api/';
   branchId: any = 0;
   branch: any = {
     id: 0,
@@ -34,15 +36,32 @@ export class BranchFromComponent implements OnInit {
   };
   cities: any[] = [];
 
+  zSub: any;
+  cSub: any;
+  bSub: any;
+  brSub: any;
+
   constructor(
     public route: ActivatedRoute,
     public routing: Router,
-    // public branchServ: BranchService,
+
     public branchServ: GenericService<IBranch, IBranchInsert, IBranchUpdate>,
     public cityServ: GenericService<ICity, ICityInsert, ICityUpdate>
-  ) {
-    // branchServ.baseUrl="Branches"
-    // cityServ.baseUrl = "Cities"
+  ) {}
+
+  ngOnDestroy(): void {
+    if (this.zSub != undefined) {
+      this.zSub.unsubscribe();
+    }
+    if (this.cSub != undefined) {
+      this.cSub.unsubscribe();
+    }
+    if (this.bSub != undefined) {
+      this.bSub.unsubscribe();
+    }
+    if (this.brSub != undefined) {
+      this.brSub.unsubscribe();
+    }
   }
 
   branchForm = new FormGroup({
@@ -70,37 +89,73 @@ export class BranchFromComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cityServ.GetAll('https://localhost:7057/api/Cities').subscribe({
-      next: (value) => {
-        console.log(value);
+    this.cSub = this.cityServ
+      .GetOptions(this.baseURL + 'cityOptions')
+      .subscribe({
+        next: (value) => {
+          console.log(value);
+          this.cities = value;
+        },
+        error: (error) => {
+          if (error.status == 401) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Unauthorized',
+            });
+          } else if (error.error.message) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: error.error.message,
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Something went wrong, please try again later',
+            });
+          }
+        },
+      });
 
-        this.cities = value;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-
-    this.route.params.subscribe({
+    this.zSub = this.route.params.subscribe({
       next: (params) => {
         this.branchId = params['id'];
 
-        // edit branch
         if (this.branchId) {
-          this.branchServ
-            .GetById('https://localhost:7057/api/branches/' + this.branchId)
+          this.bSub = this.branchServ
+            .GetById(this.baseURL + 'branches/' + this.branchId)
             .subscribe({
               next: (value) => {
                 this.branch = value;
-                // console.log(this.branch);
+
                 this.getId.setValue(this.branch.id);
                 this.getName.setValue(this.branch?.name);
                 this.getCity.setValue(this.branch.cityId);
                 this.getStatus.setValue(this.branch.status);
                 this.getAddingDate.setValue(new Date());
               },
-              error: (err) => {
-                console.log(err);
+              error: (error) => {
+                if (error.status == 401) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Unauthorized',
+                  });
+                } else if (error.error.message) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.error.message,
+                  });
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong, please try again later',
+                  });
+                }
               },
             });
         }
@@ -112,21 +167,36 @@ export class BranchFromComponent implements OnInit {
     this.branchForm.controls['cityId'].setValue(Number(this.getCity.value));
     this.branchForm.controls['status'].setValue(Number(this.getStatus.value));
     this.branchForm.controls['id'].setValue(Number(this.branchId));
-    // console.log(this.branchForm.value)
+
     this.branch = this.branchForm.value;
 
     if (this.branchId) {
-      this.branchServ
-        .Edit(
-          'https://localhost:7057/api/branches/' + this.branchId,
-          this.branch
-        )
+      this.brSub = this.branchServ
+        .Edit(this.baseURL + 'branches/' + this.branchId, this.branch)
         .subscribe({
           next: (value) => {
-            // console.log(value);
+            this.routing.navigate(['/admin/branch']);
           },
-          error: (err) => {
-            console.log(err);
+          error: (error) => {
+            if (error.status == 401) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Unauthorized',
+              });
+            } else if (error.error.message) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.error.message,
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Something went wrong, please try again later',
+              });
+            }
           },
         });
     } else {
@@ -135,17 +205,34 @@ export class BranchFromComponent implements OnInit {
         status: this.getStatus.value,
         cityId: this.getCity.value,
       };
-      this.branchServ
-        .Add('https://localhost:7057/api/branches', newBranch)
+      this.brSub = this.branchServ
+        .Add(this.baseURL + 'branches', newBranch)
         .subscribe({
           next: (value) => {
-            console.log(value);
+            this.routing.navigate(['/admin/branch']);
           },
-          error: (err) => {
-            console.log(err);
+          error: (error) => {
+            if (error.status == 401) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Unauthorized',
+              });
+            } else if (error.error.message) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.error.message,
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Something went wrong, please try again later',
+              });
+            }
           },
         });
     }
-    this.routing.navigate(['/admin/branch']);
   }
 }

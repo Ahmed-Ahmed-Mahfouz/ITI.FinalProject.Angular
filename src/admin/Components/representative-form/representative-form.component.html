@@ -3,7 +3,7 @@
 
 
 <form [formGroup]="representativeForm" class=" d-flex flex-row flex-wrap " >
-  <!--  -->
+  
 
     <div class="row d-flex flex-row w-100 justify-content-around">
       <div class="col-4 mb-3  d-flex flex-column">
@@ -65,7 +65,7 @@
         <label for="phone" class="form-label mt-3">Phone</label>
         <input type="text" class="" id="phone" aria-describedby="Name" formControlName="userPhoneNo">
         <label *ngIf="(getPhone.hasError('required') || getPhone.hasError('minlength')|| getPhone.hasError('maxlength'))  && getPhone.touched" class="error">
-          Invalid Password
+          Phone Number is Required
         </label>
       </div>
     </div>
@@ -89,7 +89,7 @@
         <label for="percent" class="form-label mt-3">Company percentage Per order</label>
         <input type="number" class="" id="percent" aria-describedby="percent" formControlName="companyPercentage">
         <label *ngIf="getCompanyPercentage.hasError('required')  && getCompanyPercentage.touched" class="error">
-          Invalid Password
+          Company percentage is required
         </label>
       </div>
     </div>

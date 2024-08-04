@@ -208,7 +208,7 @@ button:hover {
   -webkit-text-stroke: 1px;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 768px) {
 
   .product-table,
@@ -256,7 +256,7 @@ button:hover {
     font-weight: bold;
   }
 
-  /* Adjust column headers for readability */
+  
   .product-table td:nth-of-type(1):before {
     content: "Name";
   }
@@ -357,4 +357,16 @@ button:hover {
 
 .switch input[type="checkbox"]:checked:active+.slider::after {
   transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+}
+
+.error-msg {
+  color: red;
+  font-size: 0.875rem;
+  
+  margin-top: 0.25rem;
+  
+}
+
+.required {
+  color: red;
 }

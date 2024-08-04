@@ -2,10 +2,9 @@ import { DiscountType } from "../../Enums/DiscountType";
 import { Status } from "../../Enums/Status";
 
 export interface IRepresentativeUpdate{
-
+    id:string,
     userFullName:string,
     email: string,
-    password:string,
     userBranchId:number,
     governorateIds:number[],
     userPhoneNo:string,
@@ -13,5 +12,6 @@ export interface IRepresentativeUpdate{
     discountType:DiscountType,
     companyPercentage:number,
     userStatus:Status,
-
+    oldPassword:string | undefined,
+    newPassword:string | undefined
 }

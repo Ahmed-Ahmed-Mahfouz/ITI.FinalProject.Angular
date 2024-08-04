@@ -26,6 +26,7 @@ export interface IDisplayOrder {
   shippingCost: number;
   status: OrderStatus;
   type: OrderTypes;
+  companyProfit:number | undefined;
   paymentType: PaymentTypes;
   products: IDisplayProduct[];
 }

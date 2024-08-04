@@ -1,4 +1,4 @@
-/* Form Styles */
+
 .form-container {
   background-color: #ffffff;
   max-width: 1200px;
@@ -7,10 +7,12 @@
 }
 
 h2 {
-  text-align: left;
+  text-align: center;
   margin-bottom: 20px;
   color: #1a1a1a;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #ccc;
 }
 
 .form-row {
@@ -83,7 +85,7 @@ button[type="button"]:hover {
   -webkit-text-stroke: 1px;
 }
 
-/* Container for horizontal scroll */
+
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -97,7 +99,6 @@ button[type="button"]:hover {
 table {
   width: 100%;
   min-width: 1800px;
-  /* Adjust this to fit your content */
   border-collapse: collapse;
   table-layout: auto;
 }
@@ -124,11 +125,11 @@ table tbody tr:last-child {
   border-bottom: none;
 }
 
-/* Add horizontal scrollbar */
+
 .table-wrapper {
   display: block;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
 }
 
@@ -164,7 +165,7 @@ table tbody tr:last-child {
   border-color: #00c1cf;
 }
 
-/* Pagination Styles */
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -216,108 +217,13 @@ table tbody tr:last-child {
   margin-top: 10px;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 1225px) {
 
   table th,
   table td {
     font-size: 14px;
     text-align: right;
-  }
-
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-
-  thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  tr {
-    margin: 0 0 1rem 0;
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-  }
-
-  td {
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50%;
-  }
-
-  td:before {
-    position: absolute;
-    top: 50%;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    transform: translateY(-50%);
-    font-weight: bold;
-  }
-
-  td:nth-of-type(1):before {
-    content: "#";
-  }
-
-  td:nth-of-type(2):before {
-    content: "Serial Number";
-  }
-
-  td:nth-of-type(3):before {
-    content: "Status";
-  }
-
-  td:nth-of-type(4):before {
-    content: "Vendor";
-  }
-
-  td:nth-of-type(5):before {
-    content: "Client";
-  }
-
-  td:nth-of-type(6):before {
-    content: "Phone";
-  }
-
-  td:nth-of-type(7):before {
-    content: "Governorate";
-  }
-
-  td:nth-of-type(8):before {
-    content: "City";
-  }
-
-  td:nth-of-type(9):before {
-    content: "Order Cost";
-  }
-
-  td:nth-of-type(10):before {
-    content: "Amount Received";
-  }
-
-  td:nth-of-type(11):before {
-    content: "Shipping Cost";
-  }
-
-  td:nth-of-type(12):before {
-    content: "Paid Shipping Value";
-  }
-
-  td:nth-of-type(13):before {
-    content: "Company Value";
-  }
-
-  td:nth-of-type(14):before {
-    content: "Date";
   }
 }
 
@@ -342,18 +248,23 @@ table tbody tr:last-child {
     min-width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .pagination {
     flex-direction: row;
-    /* Change to row to keep pagination buttons aligned */
     flex-wrap: wrap;
+    gap: 8px;
   }
 
   .pagination button,
   .pagination .page-numbers button {
     margin-left: 0;
     margin-bottom: 5px;
+  }
+
+  .search-btn {
+    display: block;
+    margin: 0 auto;
   }
 }

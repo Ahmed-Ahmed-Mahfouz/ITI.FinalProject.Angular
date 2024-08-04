@@ -4,11 +4,11 @@ import { GenericService } from '../../Services/generic.service';
 import { IGovernorate } from '../../DTOs/DisplayDTOs/IGovernorate';
 import { IGovernorateInsert } from '../../DTOs/InsertDTOs/IGovernorateInsert';
 import { IGovernorateUpdate } from '../../DTOs/UpdateDTOs/IGovernorateUpdate';
-import { Router } from 'express';
 import { Status } from '../../Enums/Status';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-governorate-list',
@@ -18,24 +18,27 @@ import { RouterModule } from '@angular/router';
   styleUrl: './governorate-list.component.css'
 })
 export class GovernorateListComponent implements OnInit, OnDestroy {
+
+  baseURL:string="http://localhost:5241/api/";
   data: IGovernorate[] = [];
   selectedEntries = 8;
   searchTerm = '';
   currentPage = 1;
   totalPages = 0;
-  startIndex = 0;
-  endIndex = 0;
-  filteredData: IGovernorate[] = [];
-  pagedData: IGovernorate[] = [];
+  totalCount = 0;
+  
+  
+  
+  
 
   gSub:any;
 
   constructor(
     private governorateService: GenericService<IGovernorate, IGovernorateInsert, IGovernorateUpdate>
   ) {
-    // this.governorateService.baseUrl = "Governorate";
+    
   }
-  
+
   ngOnInit(): void {
     this.loadGovernorates();
   }
@@ -45,84 +48,112 @@ export class GovernorateListComponent implements OnInit, OnDestroy {
       this.gSub.unsubscribe();
     }
   }
-  
-  loadGovernorates(): void {
-    this.governorateService.GetPage("").subscribe({
-      next: data =>{
-        this.data = data.List;
-        this.totalPages = data.TotalPages;
+
+  loadGovernorates(url:string = `${this.baseURL}GovernoratePage?pageNumber=${this.currentPage}&pageSize=${this.selectedEntries}&name=${this.searchTerm}`): void {
+    this.gSub = this.governorateService.GetPage(url).subscribe({
+      next: (data:any) =>{
+        console.log(data);
+
+        this.data = data.list;
+        this.totalPages = data.totalPages;
+        this.totalCount = data.totalCount
+        
       },
       error: error => {
-        console.log(error);
+        if (error.status == 401) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Unauthorized",
+          })
+        }
+        else if (error.error.message) {          
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: error.error.message,
+          })
+        }else{
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Something went wrong, please try again later",
+          })
+        }
       }
     })
   }
 
   onEntriesChange(): void {
     this.currentPage = 1;
-    this.updateTable();
+    
+    this.loadGovernorates();
   }
 
   onSearchChange(): void {
     this.currentPage = 1;
-    this.updateTable();
+    
+    this.loadGovernorates();
   }
 
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updateTable();
+      
+      this.loadGovernorates();
     }
   }
 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updateTable();
+      
+      this.loadGovernorates();
     }
   }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.updateTable();
+      
+      this.loadGovernorates();
     }
   }
 
-  updateTable(): void {
-    let filteredData = this.data;
-    if (this.searchTerm) {
-      filteredData = filteredData.filter(
-        (row) =>
-          row.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          // row.email.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          // row.phoneNumber.includes(this.searchTerm) ||
-          // row.branchName
-          //   .toLowerCase()
-          //   .includes(this.searchTerm.toLowerCase()) ||
-          this.getStatusText(row.status)
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase())
-      );
-    }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-    this.filteredData = filteredData;
-    this.totalPages = Math.ceil(
-      this.filteredData.length / this.selectedEntries
-    );
-    this.startIndex = (this.currentPage - 1) * this.selectedEntries;
-    this.endIndex = Math.min(
-      this.startIndex + this.selectedEntries,
-      this.filteredData.length
-    );
-    this.pagedData = this.filteredData.slice(this.startIndex, this.endIndex);
-  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   getStatusText(status: Status): string {
     return Status[status];
   }
 
-  getRowIndex(index: number): number {
-    return this.startIndex + index + 1;
-  }
+  
+  
+  
 }

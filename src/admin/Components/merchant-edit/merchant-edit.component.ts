@@ -1,6 +1,6 @@
 import { ICity } from '../../DTOs/DisplayDTOs/ICity';
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MerchantService } from '../../Services/merchant.service';
 import { GovernorateService } from '../../Services/governorate.service';
 import { CityService } from '../../Services/city.service';
@@ -19,6 +19,9 @@ import { IGovernorate } from '../../DTOs/DisplayDTOs/IGovernorate';
 import { IUpdateSpecialPackage } from '../../DTOs/UpdateDTOs/IUpdateSpecialPackage';
 import { Status } from '../../Enums/Status';
 import { IBranch } from '../../DTOs/DisplayDTOs/IBranch';
+import { IUpdateMerchant } from '../../DTOs/UpdateDTOs/IUpdateMerchant';
+import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-merchant-edit',
@@ -27,143 +30,111 @@ import { IBranch } from '../../DTOs/DisplayDTOs/IBranch';
   templateUrl: './merchant-edit.component.html',
   styleUrls: ['./merchant-edit.component.css'],
 })
-export class MerchantEditComponent {
+export class MerchantEditComponent implements OnInit, OnDestroy {
+  
+  baseURL:string="http://localhost:5241/api/";
   merchantForm: FormGroup;
-  newPackageForm: FormGroup;
-  specialPackages: IDisplaySpecialPackage[] = [];
-  addSpecialPackage = false;
+  statusOptions = Object.keys(Status);
   successAlert = false;
   deleteAlert = false;
 
-  governorates: IGovernorate[] = [];
-  cities: ICity[] = [];
-  branches: IBranch[] = [];
+  merchantId:string;
 
-  statusOptions = [
-    { label: 'Inactive', value: Status.Inactive },
-    { label: 'Active', value: Status.Active },
-  ];
+  govStatus:any;
+
+  options:string[];
+
+  eeSub:any;
+  eSub:any;
 
   constructor(
     private merchantService: MerchantService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private governorateService: GovernorateService,
-    private cityService: CityService,
-    private branchService: BranchService
+    private router: Router
   ) {
     this.merchantForm = this.formBuilder.group({
-      id: ['', Validators.required],
-      userName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      address: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      branchName: ['', Validators.required],
-      storeName: ['', Validators.required],
-      governorateName: ['', Validators.required],
-      cityName: ['', Validators.required],
-      specialPickupShippingCost: [0, Validators.required],
-      merchantPayingPercentageForRejectedOrders: [0, Validators.required],
-      status: [Status.Active, Validators.required],
-      specialPackages: [[]],
+      id: [0],
+      
+      
+      
+      
+      
+      
+      
+      
+      status: [Status.Inactive],
     });
+    this.merchantId = '';
 
-    this.newPackageForm = this.formBuilder.group({
-      governorateId: [0, Validators.required],
-      cityId: [0, Validators.required],
-      shippingPrice: [0, Validators.required],
-    });
+    this.govStatus = Status;
+
+    this.options = Object.keys(this.govStatus).map(key => this.govStatus[key]);
+
+    this.options = this.options.filter(el => typeof(el) != "number" )
+  }
+
+  ngOnDestroy(): void {
+    if (this.eeSub != undefined) {
+      this.eeSub.unsubscribe();
+    }
+    if (this.eSub != undefined) {
+      this.eSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
-    const merchantId = this.route.snapshot.paramMap.get('id');
-    if (merchantId) {
-      this.merchantService
-        .GetById('https://localhost:7057/api/Merchant/' + merchantId)
+    this.merchantId = this.route.snapshot.paramMap.get('id') || '';
+    if (this.merchantId) {
+      this.eSub = this.merchantService
+        .GetById(`${this.baseURL}merchant/${this.merchantId}`)
         .subscribe((merchant: IDisplayMerchant | undefined) => {
           if (this.merchantForm && merchant) {
-            this.merchantForm.patchValue(merchant);
-            this.specialPackages = merchant.specialPackages; // Populate specialPackages array
-            console.log(this.specialPackages);
-            this.merchantForm.patchValue({
-              governorateName: merchant.governorateName,
-              cityName: merchant.cityName,
-              branchName: merchant.branchName,
-            });
+            console.log(merchant);
+            
+            this.merchantForm.controls['status'].setValue(merchant.status);
           }
         });
     }
-
-    const url = 'https://localhost:7057/api/';
-
-    this.governorateService
-      .GetAll(url + 'Governorate')
-      .subscribe((data: IGovernorate[]) => {
-        this.governorates = data;
-      });
-
-    this.cityService.GetAll(url + 'Cities').subscribe((data: ICity[]) => {
-      this.cities = data;
-    });
-
-    this.branchService.GetAll(url + 'Branches').subscribe((data: IBranch[]) => {
-      this.branches = data;
-    });
   }
-
-  toggleAddNewPackage() {
-    this.addSpecialPackage = !this.addSpecialPackage;
-  }
-
-  saveSpecialPackage() {
-    if (this.newPackageForm.valid) {
-      const newPackage: IUpdateSpecialPackage = {
-        id: this.specialPackages.length + 1,
-        shippingPrice: this.newPackageForm.value.shippingPrice,
-        cityId: this.newPackageForm.value.cityId,
-        governorateId: this.newPackageForm.value.governorateId,
-        merchantId: this.merchantForm.value.id,
+///
+  onSubmit() {
+    if (this.merchantForm.valid) {
+      const updatedmerchant: IUpdateMerchant = {
+        id: this.merchantId,
+        status: Number(this.merchantForm.controls['status'].value)
       };
-
-      // Add new package to specialPackages array
-      const displayPackage: IDisplaySpecialPackage = {
-        id: newPackage.id,
-        cityName:
-          this.cities.find((city) => city.id === newPackage.cityId)?.name || '',
-        governorateName:
-          this.governorates.find(
-            (governorate) => governorate.id === newPackage.governorateId
-          )?.name || '',
-        shippingPrice: newPackage.shippingPrice,
-        merchantName: this.merchantForm.value.storeName || '',
-      };
-
-      this.specialPackages.push(displayPackage);
-
-      // Update merchantForm's specialPackages value
-      this.merchantForm.patchValue({
-        specialPackages: this.specialPackages,
-      });
-
-      // Update merchant with new package
-      this.merchantService
-        .Edit(this.merchantForm.value.id, this.merchantForm.value)
-        .subscribe({
-          next: () => {
-            this.addSpecialPackage = false;
-            this.successAlert = true;
-          },
-          error: (err) => {
-            console.error(
-              'Error updating merchant with new special package:',
-              err
-            );
-          },
-        });
+      console.log(updatedmerchant);
+      
+      this.eeSub = this.merchantService.Edit(`${this.baseURL}merchant/${this.merchantId}`,updatedmerchant).subscribe({
+        next:() => {
+          
+          
+          this.router.navigate(['/admin/merchant'])
+        },
+       error: (error: any) => {
+        if (error.status == 401) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Unauthorized",
+          })
+        }
+        else if (error.error.message) {          
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: error.error.message,
+          })
+        }else{
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Something went wrong, please try again later",
+          })
+        }
+        }}
+      );
     }
   }
-
-  deleteSpecialPackage(index: number) {}
-
-  onSubmit() {}
 }
